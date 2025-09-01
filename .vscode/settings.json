@@ -1,0 +1,77 @@
+{
+    "C_Cpp.default.compilerPath": "E:\\Clang\\LLVM\\bin\\clang++.exe",
+    "C_Cpp.default.cppStandard": "c++20",
+    "C_Cpp.default.cStandard": "c17",
+    "C_Cpp.default.intelliSenseMode": "windows-clang-x64",
+    "C_Cpp.default.windowsSdkVersion": "10.0.22621.0",
+    "C_Cpp.inlayHints.autoDeclarationTypes.showOnLeft": true,
+    "C_Cpp.inlayHints.parameterNames.enabled": true,
+    "C_Cpp.inlayHints.referenceOperator.enabled": true,
+    "C_Cpp.inlayHints.referenceOperator.showSpace": true,
+    "C_Cpp.intelliSenseEngine": "disabled",
+    "C_Cpp.clang_format_path": "E:\\Clang\\LLVM\\bin\\clang-format.exe",
+    "C_Cpp.vcFormat.indent.accessSpecifiers": false,
+    "C_Cpp.vcFormat.newLine.beforeElse": true,
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.function": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.lambda": "sameLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.namespace": "newLine",
+    "C_Cpp.vcFormat.newLine.beforeOpenBrace.type": "newLine",
+    "C_Cpp.vcFormat.newLine.closeBraceSameLine.emptyFunction": true,
+    "C_Cpp.vcFormat.newLine.closeBraceSameLine.emptyType": true,
+    "C_Cpp.vcFormat.newLine.scopeBracesOnSeparateLines": true,
+
+
+
+    // "editor.formatOnSave": true,
+    "editor.formatOnType": true,
+
+
+
+    "clangd.path": "E:\\Clang\\LLVM\\bin\\clangd.exe",
+    "clang-format.executable": "E:\\Clang\\LLVM\\bin\\clang-format.exe",
+    "clang-format.style": "file",
+    "clangd.arguments": [
+        "--compile-commands-dir=build",
+        "--query-driver=E:/Clang/LLVM/bin/clang++.exe",
+        "--clang-tidy",                 // 开启clang-tidy
+        "--all-scopes-completion",      // 全代码库补全
+        "--completion-style=detailed",  // 详细补全
+        
+        "--header-insertion=iwyu",      
+        "--log=error",
+        "--background-index",
+        "--pretty"
+    ],
+    "[cpp]": {
+        "editor.defaultFormatter": "llvm-vs-code-extensions.vscode-clangd",
+        "editor.formatOnPaste": true
+    },
+    "clangd.fallbackFlags": [
+        "-std=c++20",
+        "-fms-compatibility"
+    ],
+
+
+
+    "cmake.generator": "Ninja",
+    "cmake.useCMakePresets": "auto",
+    "cmake.configureSettings": {
+        "CMAKE_C_COMPILER": "E:/Clang/LLVM/bin/clang.exe",
+        "CMAKE_CXX_COMPILER": "E:/Clang/LLVM/bin/clang++.exe",
+        "CMAKE_C_FLAGS": "--target=x86_64-w64-mingw32 -fuse-ld=lld",
+        "CMAKE_CXX_FLAGS": "--target=x86_64-w64-mingw32 -stdlib=libstdc++ -fuse-ld=lld",
+        "CMAKE_EXE_LINKER_FLAGS": "-fuse-ld=lld"
+    },
+
+
+
+    "terminal.integrated.profiles.windows": {
+        "PowerShell UTF8": {
+            "source": "PowerShell",
+            "icon": "terminal-powershell",
+            "args": ["-NoExit", "-Command", "$OutputEncoding = [console]::InputEncoding = [console]::OutputEncoding = New-Object System.Text.UTF8Encoding;"]
+        }
+    },
+    "terminal.integrated.defaultProfile.windows": "PowerShell UTF8",
+    "terminal.integrated.fontFamily": "Consolas, 'Microsoft YaHei', monospace"
+}

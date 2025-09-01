@@ -1,0 +1,412 @@
+
+---
+events:
+  -
+    kind: "message-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineSystem.cmake:233 (message)"
+      - "CMakeLists.txt:14 (project)"
+    message: |
+      The system is: Windows - 10.0.26100 - AMD64
+  -
+    kind: "message-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCCompiler.cmake:123 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:14 (project)"
+    message: |
+      Compiling the C compiler identification source file "CMakeCCompilerId.c" succeeded.
+      Compiler: E:/Clang/LLVM/bin/clang.exe 
+      Build flags: --target=x86_64-w64-mingw32;-fuse-ld=lld
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the C compiler identification source "CMakeCCompilerId.c" produced "a.exe"
+      
+      The C compiler identification is Clang, found in:
+        E:/cppFiles/HamuEngine/build/CMakeFiles/3.28.1/CompilerIdC/a.exe
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:17 (message)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerId.cmake:64 (__determine_compiler_id_test)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCXXCompiler.cmake:126 (CMAKE_DETERMINE_COMPILER_ID)"
+      - "CMakeLists.txt:14 (project)"
+    message: |
+      Compiling the CXX compiler identification source file "CMakeCXXCompilerId.cpp" succeeded.
+      Compiler: E:/Clang/LLVM/bin/clang++.exe 
+      Build flags: --target=x86_64-w64-mingw32;-stdlib=libstdc++;-fuse-ld=lld
+      Id flags:  
+      
+      The output was:
+      0
+      
+      
+      Compilation of the CXX compiler identification source "CMakeCXXCompilerId.cpp" produced "a.exe"
+      
+      The CXX compiler identification is Clang, found in:
+        E:/cppFiles/HamuEngine/build/CMakeFiles/3.28.1/CompilerIdCXX/a.exe
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:14 (project)"
+    checks:
+      - "Detecting C compiler ABI info"
+    directories:
+      source: "E:/cppFiles/HamuEngine/build/CMakeFiles/CMakeScratch/TryCompile-om95c1"
+      binary: "E:/cppFiles/HamuEngine/build/CMakeFiles/CMakeScratch/TryCompile-om95c1"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "E:/Clang/LLVM/bin/clang-scan-deps.exe"
+      CMAKE_C_FLAGS: "--target=x86_64-w64-mingw32 -fuse-ld=lld"
+      CMAKE_C_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: "-fuse-ld=lld"
+    buildResult:
+      variable: "CMAKE_C_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'E:/cppFiles/HamuEngine/build/CMakeFiles/CMakeScratch/TryCompile-om95c1'
+        
+        Run Build Command(s): E:/Ninja/ninja.exe -v cmTC_af422
+        [1/2] E:\\Clang\\LLVM\\bin\\clang.exe   --target=x86_64-w64-mingw32 -fuse-ld=lld    -v -MD -MT CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -MF CMakeFiles\\cmTC_af422.dir\\CMakeCCompilerABI.c.obj.d -o CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -c E:/Cmake/share/cmake-3.28/Modules/CMakeCCompilerABI.c
+        clang version 20.1.7
+        Target: x86_64-w64-windows-gnu
+        Thread model: posix
+        InstalledDir: E:\\Clang\\LLVM\\bin
+         (in-process)
+         "E:\\\\Clang\\\\LLVM\\\\bin\\\\clang.exe" -cc1 -triple x86_64-w64-windows-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=none -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -mms-bitfields -funwind-tables=2 -fno-sized-deallocation -fno-use-init-array -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb "-fdebug-compilation-dir=E:\\\\cppFiles\\\\HamuEngine\\\\build\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-om95c1" -v "-fcoverage-compilation-dir=E:\\\\cppFiles\\\\HamuEngine\\\\build\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-om95c1" -resource-dir "E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20" -dependency-file "CMakeFiles\\\\cmTC_af422.dir\\\\CMakeCCompilerABI.c.obj.d" -MT CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -sys-header-deps -internal-isystem "E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\usr/include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include" -ferror-limit 19 -fno-use-cxa-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -exception-model=seh -faddrsig -o CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -x c E:/Cmake/share/cmake-3.28/Modules/CMakeCCompilerABI.c
+        clang -cc1 version 20.1.7 based upon LLVM 20.1.7 default target x86_64-pc-windows-msvc
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\usr/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         E:\\Clang\\LLVM\\lib\\clang\\20\\include
+         E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include
+         E:\\mingw-w64\\mingw64_13\\include
+        End of search list.
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && E:\\Clang\\LLVM\\bin\\clang.exe --target=x86_64-w64-mingw32 -fuse-ld=lld -fuse-ld=lld -v CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -o cmTC_af422.exe -Wl,--out-implib,libcmTC_af422.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        clang version 20.1.7
+        Target: x86_64-w64-windows-gnu
+        Thread model: posix
+        InstalledDir: E:\\Clang\\LLVM\\bin
+         "E:\\\\Clang\\\\LLVM\\\\bin\\\\ld.lld" -m i386pep -Bdynamic -o cmTC_af422.exe "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o" "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib" "-LE:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows" CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_af422.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lkernel32 "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o"
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:14 (project)"
+    message: |
+      Parsed C implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [E:/Clang/LLVM/lib/clang/20/include]
+          add: [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/include]
+          add: [E:/mingw-w64/mingw64_13/include]
+        end of search list found
+        collapse include dir [E:/Clang/LLVM/lib/clang/20/include] ==> [E:/Clang/LLVM/lib/clang/20/include]
+        collapse include dir [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/include] ==> [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/include]
+        collapse include dir [E:/mingw-w64/mingw64_13/include] ==> [E:/mingw-w64/mingw64_13/include]
+        implicit include dirs: [E:/Clang/LLVM/lib/clang/20/include;E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/include;E:/mingw-w64/mingw64_13/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:159 (message)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeTestCCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:14 (project)"
+    message: |
+      Parsed C implicit link information:
+        link line regex: [^( *|.*[/\\])(ld\\.lld\\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: 'E:/cppFiles/HamuEngine/build/CMakeFiles/CMakeScratch/TryCompile-om95c1']
+        ignore line: []
+        ignore line: [Run Build Command(s): E:/Ninja/ninja.exe -v cmTC_af422]
+        ignore line: [[1/2] E:\\Clang\\LLVM\\bin\\clang.exe   --target=x86_64-w64-mingw32 -fuse-ld=lld    -v -MD -MT CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -MF CMakeFiles\\cmTC_af422.dir\\CMakeCCompilerABI.c.obj.d -o CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -c E:/Cmake/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang version 20.1.7]
+        ignore line: [Target: x86_64-w64-windows-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: E:\\Clang\\LLVM\\bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "E:\\\\Clang\\\\LLVM\\\\bin\\\\clang.exe" -cc1 -triple x86_64-w64-windows-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCCompilerABI.c -mrelocation-model pic -pic-level 2 -mframe-pointer=none -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -mms-bitfields -funwind-tables=2 -fno-sized-deallocation -fno-use-init-array -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb "-fdebug-compilation-dir=E:\\\\cppFiles\\\\HamuEngine\\\\build\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-om95c1" -v "-fcoverage-compilation-dir=E:\\\\cppFiles\\\\HamuEngine\\\\build\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-om95c1" -resource-dir "E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20" -dependency-file "CMakeFiles\\\\cmTC_af422.dir\\\\CMakeCCompilerABI.c.obj.d" -MT CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -sys-header-deps -internal-isystem "E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\usr/include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include" -ferror-limit 19 -fno-use-cxa-atexit -fgnuc-version=4.2.1 -fskip-odr-check-in-gmf -exception-model=seh -faddrsig -o CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -x c E:/Cmake/share/cmake-3.28/Modules/CMakeCCompilerABI.c]
+        ignore line: [clang -cc1 version 20.1.7 based upon LLVM 20.1.7 default target x86_64-pc-windows-msvc]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\usr/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ E:\\Clang\\LLVM\\lib\\clang\\20\\include]
+        ignore line: [ E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include]
+        ignore line: [ E:\\mingw-w64\\mingw64_13\\include]
+        ignore line: [End of search list.]
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && E:\\Clang\\LLVM\\bin\\clang.exe --target=x86_64-w64-mingw32 -fuse-ld=lld -fuse-ld=lld -v CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj -o cmTC_af422.exe -Wl,--out-implib,libcmTC_af422.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."]
+        ignore line: [clang version 20.1.7]
+        ignore line: [Target: x86_64-w64-windows-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: E:\\Clang\\LLVM\\bin]
+        link line: [ "E:\\\\Clang\\\\LLVM\\\\bin\\\\ld.lld" -m i386pep -Bdynamic -o cmTC_af422.exe "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o" "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib" "-LE:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows" CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj --out-implib libcmTC_af422.dll.a --major-image-version 0 --minor-image-version 0 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc -lgcc_eh -lmoldname -lmingwex -lmsvcrt -lkernel32 "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o"]
+          arg [E:\\\\Clang\\\\LLVM\\\\bin\\\\ld.lld] ==> ignore
+          arg [-m] ==> ignore
+          arg [i386pep] ==> ignore
+          arg [-Bdynamic] ==> search dynamic
+          arg [-o] ==> ignore
+          arg [cmTC_af422.exe] ==> ignore
+          arg [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o] ==> obj [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o]
+          arg [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o] ==> obj [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o]
+          arg [-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0] ==> dir [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0]
+          arg [-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib] ==> dir [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib]
+          arg [-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib] ==> dir [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib]
+          arg [-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib] ==> dir [E:\\\\mingw-w64\\\\mingw64_13\\\\lib]
+          arg [-LE:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows] ==> dir [E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows]
+          arg [CMakeFiles/cmTC_af422.dir/CMakeCCompilerABI.c.obj] ==> ignore
+          arg [--out-implib] ==> ignore
+          arg [libcmTC_af422.dll.a] ==> ignore
+          arg [--major-image-version] ==> ignore
+          arg [0] ==> ignore
+          arg [--minor-image-version] ==> ignore
+          arg [0] ==> ignore
+          arg [-lmingw32] ==> lib [mingw32]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lgcc_eh] ==> lib [gcc_eh]
+          arg [-lmoldname] ==> lib [moldname]
+          arg [-lmingwex] ==> lib [mingwex]
+          arg [-lmsvcrt] ==> lib [msvcrt]
+          arg [-ladvapi32] ==> lib [advapi32]
+          arg [-lshell32] ==> lib [shell32]
+          arg [-luser32] ==> lib [user32]
+          arg [-lkernel32] ==> lib [kernel32]
+          arg [-lmingw32] ==> lib [mingw32]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lgcc_eh] ==> lib [gcc_eh]
+          arg [-lmoldname] ==> lib [moldname]
+          arg [-lmingwex] ==> lib [mingwex]
+          arg [-lmsvcrt] ==> lib [msvcrt]
+          arg [-lkernel32] ==> lib [kernel32]
+          arg [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o] ==> obj [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o]
+        remove lib [gcc_eh]
+        remove lib [msvcrt]
+        remove lib [gcc_eh]
+        remove lib [msvcrt]
+        collapse obj [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o] ==> [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/lib/crt2.o]
+        collapse obj [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/crtbegin.o]
+        collapse obj [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/crtend.o]
+        collapse library dir [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0]
+        collapse library dir [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib] ==> [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/lib]
+        collapse library dir [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib] ==> [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/mingw/lib]
+        collapse library dir [E:\\\\mingw-w64\\\\mingw64_13\\\\lib] ==> [E:/mingw-w64/mingw64_13/lib]
+        collapse library dir [E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows] ==> [E:/Clang/LLVM/lib/clang/20/lib/windows]
+        implicit libs: [mingw32;gcc;moldname;mingwex;advapi32;shell32;user32;kernel32;mingw32;gcc;moldname;mingwex;kernel32]
+        implicit objs: [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/lib/crt2.o;E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/crtbegin.o;E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/crtend.o]
+        implicit dirs: [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0;E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/lib;E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/mingw/lib;E:/mingw-w64/mingw64_13/lib;E:/Clang/LLVM/lib/clang/20/lib/windows]
+        implicit fwks: []
+      
+      
+  -
+    kind: "try_compile-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:57 (try_compile)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:14 (project)"
+    checks:
+      - "Detecting CXX compiler ABI info"
+    directories:
+      source: "E:/cppFiles/HamuEngine/build/CMakeFiles/CMakeScratch/TryCompile-xlufxe"
+      binary: "E:/cppFiles/HamuEngine/build/CMakeFiles/CMakeScratch/TryCompile-xlufxe"
+    cmakeVariables:
+      CMAKE_CXX_COMPILER_CLANG_SCAN_DEPS: "E:/Clang/LLVM/bin/clang-scan-deps.exe"
+      CMAKE_CXX_FLAGS: "--target=x86_64-w64-mingw32 -stdlib=libstdc++ -fuse-ld=lld"
+      CMAKE_CXX_FLAGS_DEBUG: "-g"
+      CMAKE_EXE_LINKER_FLAGS: "-fuse-ld=lld"
+    buildResult:
+      variable: "CMAKE_CXX_ABI_COMPILED"
+      cached: true
+      stdout: |
+        Change Dir: 'E:/cppFiles/HamuEngine/build/CMakeFiles/CMakeScratch/TryCompile-xlufxe'
+        
+        Run Build Command(s): E:/Ninja/ninja.exe -v cmTC_b15c0
+        [1/2] E:\\Clang\\LLVM\\bin\\clang++.exe   --target=x86_64-w64-mingw32 -stdlib=libstdc++ -fuse-ld=lld  -std=gnu++20   -v -MD -MT CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -MF CMakeFiles\\cmTC_b15c0.dir\\CMakeCXXCompilerABI.cpp.obj.d -o CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -c E:/Cmake/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp
+        clang version 20.1.7
+        Target: x86_64-w64-windows-gnu
+        Thread model: posix
+        InstalledDir: E:\\Clang\\LLVM\\bin
+         (in-process)
+         "E:\\\\Clang\\\\LLVM\\\\bin\\\\clang++.exe" -cc1 -triple x86_64-w64-windows-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=none -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -mms-bitfields -funwind-tables=2 -fno-sized-deallocation -fno-use-init-array -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb "-fdebug-compilation-dir=E:\\\\cppFiles\\\\HamuEngine\\\\build\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-xlufxe" -v "-fcoverage-compilation-dir=E:\\\\cppFiles\\\\HamuEngine\\\\build\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-xlufxe" -resource-dir "E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20" -dependency-file "CMakeFiles\\\\cmTC_b15c0.dir\\\\CMakeCXXCompilerABI.cpp.obj.d" -MT CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -sys-header-deps -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\13.2.0" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\13.2.0\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\13.2.0\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include\\\\c++\\\\13.2.0" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include\\\\c++\\\\13.2.0\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include\\\\c++\\\\13.2.0\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\c++" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\c++\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\c++\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2.0" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2.0\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2.0\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13\\\\backward" -internal-isystem "E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\usr/include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include" -std=gnu++20 -fdeprecated-macro -ferror-limit 19 -fno-use-cxa-atexit -fgnuc-version=4.2.1 -fno-implicit-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -exception-model=seh -faddrsig -o CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -x c++ E:/Cmake/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp
+        clang -cc1 version 20.1.7 based upon LLVM 20.1.7 default target x86_64-pc-windows-msvc
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\x86_64-w64-mingw32"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\backward"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\13.2.0"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\13.2.0\\x86_64-w64-mingw32"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\13.2.0\\backward"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\include\\c++\\13.2.0"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\include\\c++\\13.2.0\\x86_64-w64-mingw32"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\include\\c++\\13.2.0\\backward"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2.0"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2.0\\x86_64-w64-mingw32"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2.0\\backward"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2\\x86_64-w64-mingw32"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2\\backward"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13\\x86_64-w64-mingw32"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13\\backward"
+        ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\usr/include"
+        #include "..." search starts here:
+        #include <...> search starts here:
+         E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\c++
+         E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\c++\\x86_64-w64-mingw32
+         E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\c++\\backward
+         E:\\Clang\\LLVM\\lib\\clang\\20\\include
+         E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include
+         E:\\mingw-w64\\mingw64_13\\include
+        End of search list.
+        [2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && E:\\Clang\\LLVM\\bin\\clang++.exe --target=x86_64-w64-mingw32 -stdlib=libstdc++ -fuse-ld=lld -fuse-ld=lld -v CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_b15c0.exe -Wl,--out-implib,libcmTC_b15c0.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."
+        clang version 20.1.7
+        Target: x86_64-w64-windows-gnu
+        Thread model: posix
+        InstalledDir: E:\\Clang\\LLVM\\bin
+         "E:\\\\Clang\\\\LLVM\\\\bin\\\\ld.lld" -m i386pep -Bdynamic -o cmTC_b15c0.exe "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o" "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib" "-LE:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows" CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_b15c0.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lkernel32 "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o"
+        
+      exitCode: 0
+  -
+    kind: "message-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:127 (message)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:14 (project)"
+    message: |
+      Parsed CXX implicit include dir info: rv=done
+        found start of include info
+        found start of implicit include info
+          add: [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++]
+          add: [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32]
+          add: [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/backward]
+          add: [E:/Clang/LLVM/lib/clang/20/include]
+          add: [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/include]
+          add: [E:/mingw-w64/mingw64_13/include]
+        end of search list found
+        collapse include dir [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++]
+        collapse include dir [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32]
+        collapse include dir [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/backward] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/backward]
+        collapse include dir [E:/Clang/LLVM/lib/clang/20/include] ==> [E:/Clang/LLVM/lib/clang/20/include]
+        collapse include dir [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/include] ==> [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/include]
+        collapse include dir [E:/mingw-w64/mingw64_13/include] ==> [E:/mingw-w64/mingw64_13/include]
+        implicit include dirs: [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++;E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/x86_64-w64-mingw32;E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/include/c++/backward;E:/Clang/LLVM/lib/clang/20/include;E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/include;E:/mingw-w64/mingw64_13/include]
+      
+      
+  -
+    kind: "message-v1"
+    backtrace:
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeDetermineCompilerABI.cmake:159 (message)"
+      - "E:/Cmake/share/cmake-3.28/Modules/CMakeTestCXXCompiler.cmake:26 (CMAKE_DETERMINE_COMPILER_ABI)"
+      - "CMakeLists.txt:14 (project)"
+    message: |
+      Parsed CXX implicit link information:
+        link line regex: [^( *|.*[/\\])(ld\\.lld\\.exe|CMAKE_LINK_STARTFILE-NOTFOUND|([^/\\]+-)?ld|collect2)[^/\\]*( |$)]
+        ignore line: [Change Dir: 'E:/cppFiles/HamuEngine/build/CMakeFiles/CMakeScratch/TryCompile-xlufxe']
+        ignore line: []
+        ignore line: [Run Build Command(s): E:/Ninja/ninja.exe -v cmTC_b15c0]
+        ignore line: [[1/2] E:\\Clang\\LLVM\\bin\\clang++.exe   --target=x86_64-w64-mingw32 -stdlib=libstdc++ -fuse-ld=lld  -std=gnu++20   -v -MD -MT CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -MF CMakeFiles\\cmTC_b15c0.dir\\CMakeCXXCompilerABI.cpp.obj.d -o CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -c E:/Cmake/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [clang version 20.1.7]
+        ignore line: [Target: x86_64-w64-windows-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: E:\\Clang\\LLVM\\bin]
+        ignore line: [ (in-process)]
+        ignore line: [ "E:\\\\Clang\\\\LLVM\\\\bin\\\\clang++.exe" -cc1 -triple x86_64-w64-windows-gnu -emit-obj -disable-free -clear-ast-before-backend -disable-llvm-verifier -discard-value-names -main-file-name CMakeCXXCompilerABI.cpp -mrelocation-model pic -pic-level 2 -mframe-pointer=none -fmath-errno -ffp-contract=on -fno-rounding-math -mconstructor-aliases -mms-bitfields -funwind-tables=2 -fno-sized-deallocation -fno-use-init-array -target-cpu x86-64 -tune-cpu generic -debugger-tuning=gdb "-fdebug-compilation-dir=E:\\\\cppFiles\\\\HamuEngine\\\\build\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-xlufxe" -v "-fcoverage-compilation-dir=E:\\\\cppFiles\\\\HamuEngine\\\\build\\\\CMakeFiles\\\\CMakeScratch\\\\TryCompile-xlufxe" -resource-dir "E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20" -dependency-file "CMakeFiles\\\\cmTC_b15c0.dir\\\\CMakeCXXCompilerABI.cpp.obj.d" -MT CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -sys-header-deps -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\13.2.0" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\13.2.0\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include\\\\c++\\\\13.2.0\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include\\\\c++\\\\13.2.0" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include\\\\c++\\\\13.2.0\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include\\\\c++\\\\13.2.0\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\c++" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\c++\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\c++\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2.0" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2.0\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2.0\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13.2\\\\backward" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13\\\\x86_64-w64-mingw32" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\include\\\\g++-v13\\\\backward" -internal-isystem "E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\usr/include" -internal-isystem "E:\\\\mingw-w64\\\\mingw64_13\\\\include" -std=gnu++20 -fdeprecated-macro -ferror-limit 19 -fno-use-cxa-atexit -fgnuc-version=4.2.1 -fno-implicit-modules -fskip-odr-check-in-gmf -fcxx-exceptions -fexceptions -exception-model=seh -faddrsig -o CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -x c++ E:/Cmake/share/cmake-3.28/Modules/CMakeCXXCompilerABI.cpp]
+        ignore line: [clang -cc1 version 20.1.7 based upon LLVM 20.1.7 default target x86_64-pc-windows-msvc]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\x86_64-w64-mingw32"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\backward"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\13.2.0"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\13.2.0\\x86_64-w64-mingw32"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include\\c++\\13.2.0\\backward"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\include\\c++\\13.2.0"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\include\\c++\\13.2.0\\x86_64-w64-mingw32"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\include\\c++\\13.2.0\\backward"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2.0"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2.0\\x86_64-w64-mingw32"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2.0\\backward"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2\\x86_64-w64-mingw32"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13.2\\backward"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13\\x86_64-w64-mingw32"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\g++-v13\\backward"]
+        ignore line: [ignoring nonexistent directory "E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\usr/include"]
+        ignore line: [#include "..." search starts here:]
+        ignore line: [#include <...> search starts here:]
+        ignore line: [ E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\c++]
+        ignore line: [ E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\c++\\x86_64-w64-mingw32]
+        ignore line: [ E:\\mingw-w64\\mingw64_13\\lib\\gcc\\x86_64-w64-mingw32\\13.2.0\\include\\c++\\backward]
+        ignore line: [ E:\\Clang\\LLVM\\lib\\clang\\20\\include]
+        ignore line: [ E:\\mingw-w64\\mingw64_13\\x86_64-w64-mingw32\\include]
+        ignore line: [ E:\\mingw-w64\\mingw64_13\\include]
+        ignore line: [End of search list.]
+        ignore line: [[2/2] C:\\WINDOWS\\system32\\cmd.exe /C "cd . && E:\\Clang\\LLVM\\bin\\clang++.exe --target=x86_64-w64-mingw32 -stdlib=libstdc++ -fuse-ld=lld -fuse-ld=lld -v CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj -o cmTC_b15c0.exe -Wl,--out-implib,libcmTC_b15c0.dll.a -Wl,--major-image-version,0,--minor-image-version,0   && cd ."]
+        ignore line: [clang version 20.1.7]
+        ignore line: [Target: x86_64-w64-windows-gnu]
+        ignore line: [Thread model: posix]
+        ignore line: [InstalledDir: E:\\Clang\\LLVM\\bin]
+        link line: [ "E:\\\\Clang\\\\LLVM\\\\bin\\\\ld.lld" -m i386pep -Bdynamic -o cmTC_b15c0.exe "E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o" "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib" "-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib" "-LE:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows" CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj --out-implib libcmTC_b15c0.dll.a --major-image-version 0 --minor-image-version 0 -lstdc++ -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -ladvapi32 -lshell32 -luser32 -lkernel32 -lmingw32 -lgcc_s -lgcc -lmoldname -lmingwex -lmsvcrt -lkernel32 "E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o"]
+          arg [E:\\\\Clang\\\\LLVM\\\\bin\\\\ld.lld] ==> ignore
+          arg [-m] ==> ignore
+          arg [i386pep] ==> ignore
+          arg [-Bdynamic] ==> search dynamic
+          arg [-o] ==> ignore
+          arg [cmTC_b15c0.exe] ==> ignore
+          arg [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o] ==> obj [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o]
+          arg [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o] ==> obj [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o]
+          arg [-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0] ==> dir [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0]
+          arg [-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib] ==> dir [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib]
+          arg [-LE:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib] ==> dir [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib]
+          arg [-LE:\\\\mingw-w64\\\\mingw64_13\\\\lib] ==> dir [E:\\\\mingw-w64\\\\mingw64_13\\\\lib]
+          arg [-LE:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows] ==> dir [E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows]
+          arg [CMakeFiles/cmTC_b15c0.dir/CMakeCXXCompilerABI.cpp.obj] ==> ignore
+          arg [--out-implib] ==> ignore
+          arg [libcmTC_b15c0.dll.a] ==> ignore
+          arg [--major-image-version] ==> ignore
+          arg [0] ==> ignore
+          arg [--minor-image-version] ==> ignore
+          arg [0] ==> ignore
+          arg [-lstdc++] ==> lib [stdc++]
+          arg [-lmingw32] ==> lib [mingw32]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lmoldname] ==> lib [moldname]
+          arg [-lmingwex] ==> lib [mingwex]
+          arg [-lmsvcrt] ==> lib [msvcrt]
+          arg [-ladvapi32] ==> lib [advapi32]
+          arg [-lshell32] ==> lib [shell32]
+          arg [-luser32] ==> lib [user32]
+          arg [-lkernel32] ==> lib [kernel32]
+          arg [-lmingw32] ==> lib [mingw32]
+          arg [-lgcc_s] ==> lib [gcc_s]
+          arg [-lgcc] ==> lib [gcc]
+          arg [-lmoldname] ==> lib [moldname]
+          arg [-lmingwex] ==> lib [mingwex]
+          arg [-lmsvcrt] ==> lib [msvcrt]
+          arg [-lkernel32] ==> lib [kernel32]
+          arg [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o] ==> obj [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o]
+        remove lib [msvcrt]
+        remove lib [msvcrt]
+        collapse obj [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib\\\\crt2.o] ==> [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/lib/crt2.o]
+        collapse obj [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtbegin.o] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/crtbegin.o]
+        collapse obj [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0\\\\crtend.o] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/crtend.o]
+        collapse library dir [E:\\\\mingw-w64\\\\mingw64_13\\\\lib\\\\gcc\\\\x86_64-w64-mingw32\\\\13.2.0] ==> [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0]
+        collapse library dir [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\lib] ==> [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/lib]
+        collapse library dir [E:\\\\mingw-w64\\\\mingw64_13\\\\x86_64-w64-mingw32\\\\mingw/lib] ==> [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/mingw/lib]
+        collapse library dir [E:\\\\mingw-w64\\\\mingw64_13\\\\lib] ==> [E:/mingw-w64/mingw64_13/lib]
+        collapse library dir [E:\\\\Clang\\\\LLVM\\\\lib\\\\clang\\\\20\\\\lib\\\\windows] ==> [E:/Clang/LLVM/lib/clang/20/lib/windows]
+        implicit libs: [stdc++;mingw32;gcc_s;gcc;moldname;mingwex;advapi32;shell32;user32;kernel32;mingw32;gcc_s;gcc;moldname;mingwex;kernel32]
+        implicit objs: [E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/lib/crt2.o;E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/crtbegin.o;E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0/crtend.o]
+        implicit dirs: [E:/mingw-w64/mingw64_13/lib/gcc/x86_64-w64-mingw32/13.2.0;E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/lib;E:/mingw-w64/mingw64_13/x86_64-w64-mingw32/mingw/lib;E:/mingw-w64/mingw64_13/lib;E:/Clang/LLVM/lib/clang/20/lib/windows]
+        implicit fwks: []
+      
+      
+...

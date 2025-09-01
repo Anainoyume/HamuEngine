@@ -1,0 +1,56 @@
+# 基于 Google 风格，可以改成 LLVM、Mozilla、WebKit、Microsoft 等
+BasedOnStyle: Microsoft                                  
+
+AccessModifierOffset: -4                            
+IndentWidth: 4                                      # 缩进宽度4个空格
+TabWidth: 4                                         # Tab 等同4个空格
+UseTab: Never                                       # 不使用 Tab，使用空格缩进
+
+# 设置基本信息
+ColumnLimit: 100                                    # 代码最大宽度（换行限制）
+AllowShortFunctionsOnASingleLine: Inline            # 简短函数可以写成一行
+DerivePointerAlignment: false                       # 不自动推导指针对齐，下面单独设置
+PointerAlignment: Left                              # 指针星号靠左，如 `int* ptr`                    
+Cpp11BracedListStyle: true                          # C++11 花括号初始化风格
+Standard: c++20                                     # 代码标准，使用 C++20
+SortIncludes: false                                 # 自动排序 include 语句
+SpaceBeforeParens: ControlStatements                # 控制语句如 if、for 前有空格，函数调用无空格
+ConstructorInitializerIndentWidth: 4                # 构造函数初始化列表缩进宽度
+AllowShortIfStatementsOnASingleLine: WithoutElse    # 短 if 语句不要写成一行，保证可读
+
+# 设置模板声明和定义的换行规则
+BreakTemplateDeclarations: Yes
+
+AlignConsecutiveDeclarations: Consecutive
+AlignConsecutiveAssignments: Consecutive
+
+AlignArrayOfStructures: Right
+AlignAfterOpenBracket: Align
+AlignOperands: AlignAfterOperator
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowAllArgumentsOnNextLine: true
+BinPackArguments: true
+BinPackParameters: false
+BreakBeforeBinaryOperators: None
+
+AllowShortLambdasOnASingleLine: false
+ContinuationIndentWidth: 4
+
+
+# 大括号风格，Allman 是换行大括号，也可以用 Attach（同一行）
+BreakBeforeBraces: Custom                           
+BraceWrapping:
+  # BraceWrappingAfterControlStatementStyle: BWACS_MultiLine
+  BeforeElse: true
+  BeforeCatch: true
+  AfterControlStatement: false
+  AfterFunction: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+  AfterNamespace: true
+  AfterStruct: true
+  AfterClass: true
+  IndentBraces: false
+  AfterEnum: true
+  AfterExternBlock: true

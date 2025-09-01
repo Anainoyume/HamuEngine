@@ -1,0 +1,22 @@
+CompileFlags:
+  Add:
+    - -std=c++20
+    - -Wall
+    - -Wextra
+    # - -ftemplate-backtrace-limit=1 
+    # - -ferror-limit=1 
+    # - -fno-caret-diagnostics 
+    - -fdiagnostics-show-template-tree
+
+Index:
+  Background: Build
+
+Diagnostics:
+  Suppress: [clang-diagnostic-unused-variable]
+
+InlayHints:
+  Designators: No
+  # ParameterNames: No
+  # DeducedTypes: No
+
+
