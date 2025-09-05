@@ -27,6 +27,8 @@ target_link_libraries(app PRIVATE
     winpthread
     opengl32
     libglfw3dll.a
+    libspdlog.dll.a
+    ws2_32
 )
 
 target_compile_options(app PRIVATE
