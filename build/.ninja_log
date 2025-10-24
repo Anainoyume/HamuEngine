@@ -1,5 +1,0 @@
-# ninja log v7
-1	781	7784416707068426	build.ninja	bd8e7e1766b154e7
-15	284	7784412514798863	CMakeFiles/app.dir/src/main.cpp.obj	c0b9d97131ff3787
-415	510	7784412518767654	app.exe	cb76106681bc63fb
-5	415	7784412514693578	CMakeFiles/app.dir/src/lib/glad.cpp.obj	b8026b74a9c81ce3
