@@ -7,7 +7,7 @@ TabWidth: 4                                         # Tab 等同4个空格
 UseTab: Never                                       # 不使用 Tab，使用空格缩进
 
 # 设置基本信息
-ColumnLimit: 100                                    # 代码最大宽度（换行限制）
+ColumnLimit: 80                                    # 代码最大宽度（换行限制）
 AllowShortFunctionsOnASingleLine: Inline            # 简短函数可以写成一行
 DerivePointerAlignment: false                       # 不自动推导指针对齐，下面单独设置
 PointerAlignment: Left                              # 指针星号靠左，如 `int* ptr`                    
@@ -18,19 +18,20 @@ SpaceBeforeParens: ControlStatements                # 控制语句如 if、for �
 ConstructorInitializerIndentWidth: 4                # 构造函数初始化列表缩进宽度
 AllowShortIfStatementsOnASingleLine: WithoutElse    # 短 if 语句不要写成一行，保证可读
 
+BinPackParameters: false
+BinPackArguments: false
+AlignAfterOpenBracket: Align
+AllowAllParametersOfDeclarationOnNextLine: true
+
 # 设置模板声明和定义的换行规则
 BreakTemplateDeclarations: Yes
 
 AlignConsecutiveDeclarations: Consecutive
-AlignConsecutiveAssignments: Consecutive
+AlignConsecutiveAssignments: false
 
 AlignArrayOfStructures: Right
-AlignAfterOpenBracket: Align
 AlignOperands: AlignAfterOperator
-AllowAllParametersOfDeclarationOnNextLine: true
 AllowAllArgumentsOnNextLine: true
-BinPackArguments: true
-BinPackParameters: false
 BreakBeforeBinaryOperators: None
 
 AllowShortLambdasOnASingleLine: false
