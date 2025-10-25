@@ -1,68 +1,130 @@
 cmake_minimum_required(VERSION 3.20)
 
-# 导出 compile commands, clangd 需要参考这个给运行语言服务器
-set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
-set(CMAKE_CXX_STANDARD 20)
-set(CMAKE_CXX_STANDARD_REQUIRED ON)
+project(HamuEngine VERSION 1.0 LANGUAGES CXX)
+
+#========= Settings ============================================================================================
+
+    # 导出 compile commands, clangd 需要参考这个给运行语言服务器
+    set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+    set(CMAKE_CXX_STANDARD 20)
+    set(CMAKE_CXX_STANDARD_REQUIRED ON)
+#===============================================================================================================
 
 
-# 递归搜索 src 文件夹内的 .c/.cpp 文件
-file(GLOB SRC
-    "src/*.cpp"
-)
 
-set(IMGUI_DIR "${CMAKE_SOURCE_DIR}/include/imgui")
-set(IMGUI_SRC
-    ${IMGUI_DIR}/imgui.cpp
-    ${IMGUI_DIR}/imgui_draw.cpp
-    ${IMGUI_DIR}/imgui_tables.cpp
-    ${IMGUI_DIR}/imgui_widgets.cpp
-    ${IMGUI_DIR}/backends/imgui_impl_glfw.cpp
-    ${IMGUI_DIR}/backends/imgui_impl_opengl3.cpp
-    ${IMGUI_DIR}/imgui_demo.cpp   # 如果你要用 Demo 窗口，就加上
-)
 
-# Project: app
-project(app)
 
-add_executable(app ${SRC} ${IMGUI_SRC})
+#========= HamuEngine dll ======================================================================================
+    
+    # 搜索 src 文件
+    file(GLOB_RECURSE HAMUENGINE_SOURCES "HamuEngine/src/*.cpp" "HamuEngine/src/*.h")
+    add_library(EngineCore SHARED ${HAMUENGINE_SOURCES})
 
-target_include_directories(app PRIVATE
-    "include"
-    "include/imgui"
-    "include/imgui/backends"
-)
+    target_include_directories(EngineCore PRIVATE
+        "${PROJECT_SOURCE_DIR}/HamuEngine/src"
+        "${PROJECT_SOURCE_DIR}/HamuEngine/include"
+    )
 
-target_link_directories(app PRIVATE
-    "lib"
-)
+    target_link_directories(EngineCore PRIVATE 
+        "${PROJECT_SOURCE_DIR}/HamuEngine/lib"
+    )
 
-target_link_libraries(app PRIVATE 
-    winpthread
-    opengl32
-    libglfw3dll.a
-    libspdlog.dll.a
-    ws2_32
-)
+    target_link_libraries(EngineCore PRIVATE 
+        winpthread
+        opengl32
+        libglfw3dll.a       # glfw 动态导入库
+        libspdlog.dll.a
+        $<$<BOOL:${MINGW}>:ws2_32>
+    )
 
-# -------- 编译选项按构建类型区分 --------
-# Debug: 无优化，调试信息全开
-target_compile_options(app PRIVATE
-    $<$<CONFIG:Debug>:
-        -O0
-        -g
-        -fno-inline
-        -fno-builtin
-        -fdiagnostics-show-template-tree
-        -ferror-limit=1
-        -fno-elide-constructors
-    >
-)
+    target_compile_definitions(EngineCore PRIVATE
+        # ...
+    )
+#===============================================================================================================
 
-# Release: 优化全开
-target_compile_options(app PRIVATE
-    $<$<CONFIG:Release>:
-        -O2
-        -DNDEBUG
-    >
-)
+
+
+
+
+#========= HamuEngine dll ======================================================================================
+    
+    # 搜索 src 文件
+    file(GLOB_RECURSE SANDBOX_SOURCES "SandBox/src/*.cpp" "SandBox/src/*.h")
+    add_executable(SandBox ${SANDBOX_SOURCES})
+
+    target_include_directories(SandBox PRIVATE
+        "${PROJECT_SOURCE_DIR}/HamuEngine/src"
+    )
+
+    # 链接我们的引擎
+    target_link_directories(SandBox PRIVATE 
+        EngineCore
+    )
+
+    target_link_libraries(SandBox PRIVATE 
+        
+    )
+
+    target_compile_definitions(SandBox PRIVATE
+        # ...
+    )
+#===============================================================================================================
+
+
+
+
+
+#========= Configuration =======================================================================================
+    
+    # 配置不同的构建类型
+    # foreach(CONFIGURATION Debug Release Dist)
+    #     string(TOUPPER ${CONFIGURATION} CONFIG)
+    #     if (CMAKE_BUILD_TYPE STREQUAL ${CONFIG})
+    #         target_compile_definitions(Jigsaw PRIVATE JS_DEBUG)
+    #         target_compile_definitions(Jigsaw PRIVATE JS_ENABLE_ASSERTS)
+
+    #         target_compile_definitions(Sandbox PRIVATE JS_DEBUG)
+    #     endif()
+
+    #     if (CMAKE_BUILD_TYPE STREQUAL Release)
+    #         target_compile_definitions(Jigsaw PRIVATE JS_RELRASE)
+    #         target_compile_definitions(Sandbox PRIVATE JS_RELRASE)
+    #         target_compile_options(Jigsaw PRIVATE -O2)
+    #         target_compile_options(Sandbox PRIVATE -O2)
+    #     endif()
+
+    #     if (CMAKE_BUILD_TYPE STREQUAL Dist)
+    #         target_compile_definitions(Jigsaw PRIVATE JS_DIST)
+    #         target_compile_definitions(Sandbox PRIVATE JS_DIST)
+    #         target_compile_options(Jigsaw PRIVATE -O2)
+    #         target_compile_options(Sandbox PRIVATE -O2)
+    #     endif()
+    # endforeach()
+
+    if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+        set(PLATFORM "x64")
+    else()
+        set(PLATFORM "x86")
+    endif()
+
+    # 设置库和可执行文件的输出目录
+    set(OUTPUT_DIR "${CMAKE_BINARY_DIR}/bin")
+    # 设置静态库, 动态库, 执行文件的输出目录
+    set_target_properties(EngineCore PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${OUTPUT_DIR}/HamuEngine/${CMAKE_BUILD_TYPE}/${CMAKE_SYSTEM_NAME}/${PLATFORM}"
+            LIBRARY_OUTPUT_DIRECTORY "${OUTPUT_DIR}/HamuEngine/${CMAKE_BUILD_TYPE}/${CMAKE_SYSTEM_NAME}/${PLATFORM}"
+            RUNTIME_OUTPUT_DIRECTORY "${OUTPUT_DIR}/HamuEngine/${CMAKE_BUILD_TYPE}/${CMAKE_SYSTEM_NAME}/${PLATFORM}"
+    )
+
+    set_target_properties(SandBox PROPERTIES
+            ARCHIVE_OUTPUT_DIRECTORY "${OUTPUT_DIR}/SandBox/${CMAKE_BUILD_TYPE}/${CMAKE_SYSTEM_NAME}/${PLATFORM}"
+            LIBRARY_OUTPUT_DIRECTORY "${OUTPUT_DIR}/SandBox/${CMAKE_BUILD_TYPE}/${CMAKE_SYSTEM_NAME}/${PLATFORM}"
+            RUNTIME_OUTPUT_DIRECTORY "${OUTPUT_DIR}/SandBox/${CMAKE_BUILD_TYPE}/${CMAKE_SYSTEM_NAME}/${PLATFORM}"
+    )
+    
+
+    # 设置输出拷贝命令
+    add_custom_command(TARGET EngineCore SandBox POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy $<TARGET_FILE:EngineCore> $<TARGET_FILE_DIR:SandBox>
+    )
+#===============================================================================================================
