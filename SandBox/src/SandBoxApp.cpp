@@ -1,3 +1,4 @@
+#include "EngineCore/Application.h"
 #include <HamuEngine.h>
 
 class SandBox : public HamuEngine::Application
@@ -8,9 +9,6 @@ public:
     ~SandBox() {}
 };
 
-int main() {
-
-    auto app = new SandBox();
-    app->Run();
-    delete app;
+HamuEngine::Application* HamuEngine::CreateApplication() {
+    return new SandBox();
 }

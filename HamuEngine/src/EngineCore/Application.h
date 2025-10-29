@@ -13,4 +13,6 @@ namespace HamuEngine {
         void Run();
     };
 
+    Application* CreateApplication();
+
 } // namespace HamuEngine
