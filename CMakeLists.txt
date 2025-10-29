@@ -38,7 +38,8 @@ project(HamuEngine VERSION 1.0 LANGUAGES CXX)
     )
 
     target_compile_definitions(EngineCore PRIVATE
-        # ...
+        HAMU_PLATFORM_WINDOWS
+        HAMU_BUILD_DLL
     )
 #===============================================================================================================
 
@@ -53,20 +54,21 @@ project(HamuEngine VERSION 1.0 LANGUAGES CXX)
     add_executable(SandBox ${SANDBOX_SOURCES})
 
     target_include_directories(SandBox PRIVATE
+        "${PROJECT_SOURCE_DIR}/SandBox/src"
         "${PROJECT_SOURCE_DIR}/HamuEngine/src"
     )
 
     # 链接我们的引擎
     target_link_directories(SandBox PRIVATE 
-        EngineCore
-    )
-
-    target_link_libraries(SandBox PRIVATE 
         
     )
 
+    target_link_libraries(SandBox PRIVATE 
+        EngineCore
+    )
+
     target_compile_definitions(SandBox PRIVATE
-        # ...
+        HAMU_PLATFORM_WINDOWS
     )
 #===============================================================================================================
 
