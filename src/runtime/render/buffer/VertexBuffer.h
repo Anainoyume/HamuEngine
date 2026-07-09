@@ -1,12 +1,14 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "glad/glad.h"
 #include <vector>
 
 namespace hamu
 {
 
-    class VertexBuffer
+    class HAMU_API VertexBuffer
     {
     public:
         VertexBuffer();

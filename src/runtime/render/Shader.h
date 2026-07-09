@@ -1,5 +1,7 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "glad/glad.h"
 
 #include <cstddef>
@@ -12,7 +14,7 @@ namespace fs = std::filesystem;
 namespace hamu
 {
 
-    class Shader
+    class HAMU_API Shader
     {
     public:
         Shader()  = default;

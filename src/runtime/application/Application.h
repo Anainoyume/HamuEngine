@@ -2,8 +2,9 @@
 
 #include "GLFW/glfw3.h"
 
-#include "core/behavior/Behavior.h"
-#include "core/camera/Camera.h"
+#include "platform/api.h"
+#include "runtime/behavior/Behavior.h"
+#include "runtime/camera/Camera.h"
 
 #include <iostream>
 #include <memory>
@@ -12,7 +13,7 @@
 namespace hamu
 {
 
-    class Application
+    class HAMU_API Application
     {
     public:
         using WindowDeleter = void (*)(GLFWwindow*);

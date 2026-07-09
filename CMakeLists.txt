@@ -25,22 +25,22 @@ set(COMMON_LIB_NAME
 
 # ----------------------------- App Configuration ------------------------------
 set(ENGINE_SRC
-    "src/core/render/Shader.cpp"
-    "src/core/render/Texture.cpp"
-    "src/core/render/Material.cpp"
-    "src/core/render/Mesh.cpp"
-    "src/core/render/Renderer.cpp"
-    "src/core/render/MeshRenderer.cpp"
+    "src/runtime/render/Shader.cpp"
+    "src/runtime/render/Texture.cpp"
+    "src/runtime/render/Material.cpp"
+    "src/runtime/render/Mesh.cpp"
+    "src/runtime/render/Renderer.cpp"
+    "src/runtime/render/MeshRenderer.cpp"
     
-    "src/core/render/buffer/VertexBuffer.cpp"
-    "src/core/render/buffer/IndexBuffer.cpp"
-    "src/core/render/buffer/UniformBuffer.cpp"
-    "src/core/render/buffer/VertexArray.cpp"
-    "src/core/render/buffer/VertexLayout.cpp"
+    "src/runtime/render/buffer/VertexBuffer.cpp"
+    "src/runtime/render/buffer/IndexBuffer.cpp"
+    "src/runtime/render/buffer/UniformBuffer.cpp"
+    "src/runtime/render/buffer/VertexArray.cpp"
+    "src/runtime/render/buffer/VertexLayout.cpp"
 
-    "src/core/transform/Transform.cpp"
-    "src/core/camera/Camera.cpp"
-    "src/core/application/Application.cpp"
+    "src/runtime/transform/Transform.cpp"
+    "src/runtime/camera/Camera.cpp"
+    "src/runtime/application/Application.cpp"
 
     "src/utils/tiny_json/JsonNode.cpp"
     "src/utils/tiny_json/JsonLexer.cpp"
@@ -49,7 +49,7 @@ set(ENGINE_SRC
     "src/utils/tiny_json/JsonUtils.cpp"
 )
 
-add_library(HamuEngine SHARED ${ENGINE_SRC})
+add_library(HamuEngine STATIC ${ENGINE_SRC})
 # 公开一下头文件路径
 target_include_directories(HamuEngine PUBLIC 
     "src"
@@ -67,7 +67,8 @@ target_compile_options(HamuEngine PRIVATE
     -ferror-limit=1
 )
 target_compile_definitions(HamuEngine PRIVATE
-    HAMU_ENGINE_DLL_EXPORT
+    # HAMU_ENGINE_DLL_EXPORT
+    HAMU_ENGINE_BUILD_STATIC
 )
 
 
@@ -78,9 +79,19 @@ set(SANDBOX_SRC
 )
 
 add_executable(SandBox ${SANDBOX_SRC})
-target_include_directories(SandBox PRIVATE "sandbox")
+target_include_directories(SandBox PRIVATE 
+    "sandbox"
+)
 target_link_libraries(SandBox PRIVATE 
     ${COMMON_LIB_NAME}
     HamuEngine    
-)
 
+    glad
+    glfw
+    glm
+    imgui
+    stb_image
+)
+target_compile_definitions(SandBox PRIVATE
+    HAMU_ENGINE_BUILD_STATIC # 临时改成静态链接库
+)

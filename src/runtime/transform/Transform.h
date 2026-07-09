@@ -1,5 +1,7 @@
 #pragma once
 
+#include "platform/api.h"
+
 // 1. 只包含定义成员变量所需的最小头文件
 #include "glm/ext/vector_float3.hpp"
 #include "glm/vec3.hpp"
@@ -11,7 +13,7 @@
 
 namespace hamu
 {
-    class Transform
+    class HAMU_API Transform
     {
     public:
         Transform()  = default;

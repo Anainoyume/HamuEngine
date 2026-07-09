@@ -32,9 +32,9 @@ add_library(imgui STATIC
     ${IMGUI_ROOT}/backends/imgui_impl_glfw.cpp
     ${IMGUI_ROOT}/backends/imgui_impl_opengl3.cpp
 )
-target_include_directories(imgui PRIVATE ${GLFW_ROOT}) # 用到了 glfw
+target_include_directories(imgui PRIVATE ${GLFW_ROOT} ${GLAD_ROOT}) # 用到了 glfw 和 glad
 target_include_directories(imgui PUBLIC ${IMGUI_ROOT})
-target_compile_definitions(imgui INTERFACE
+target_compile_definitions(imgui PRIVATE
     # 我们改了 imgui 源码, 修改了自定义的 loader, 这里加上宏
     IMGUI_IMPL_OPENGL_LOADER_CUSTOM
 )

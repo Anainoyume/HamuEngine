@@ -1,12 +1,14 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "glad/glad.h"
 #include <vector>
 
 namespace hamu
 {
 
-    class IndexBuffer
+    class HAMU_API IndexBuffer
     {
     public:
         IndexBuffer();

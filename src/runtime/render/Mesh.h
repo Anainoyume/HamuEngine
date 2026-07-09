@@ -1,9 +1,11 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "data_structure/SubMesh.h"
 #include "buffer/VertexArray.h"
 #include "glm/ext/vector_float4.hpp"
-#include "core/render/Renderer.h"
+#include "runtime/render/Renderer.h"
 
 #include <memory>
 #include <vector>
@@ -11,7 +13,7 @@
 namespace hamu
 {
     // 目前的 Mesh 还只是一个 VAO 的简单封装, 后续会添加更多功能
-    class Mesh
+    class HAMU_API Mesh
     {
     public:
         Mesh();

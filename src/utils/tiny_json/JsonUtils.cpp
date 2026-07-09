@@ -2,7 +2,7 @@
 
 #include "JsonDOMBuilder.h"
 #include "JsonParser.h"
-#include "core/tool/Utils.h"
+#include "runtime/tool/Utils.h"
 
 #include <cstddef>
 #include <cstdint>

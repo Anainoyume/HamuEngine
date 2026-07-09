@@ -1,5 +1,7 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "glad/glad.h"
 
 #include "VertexLayout.h"
@@ -9,7 +11,7 @@
 namespace hamu
 {
 
-    class VertexArray
+    class HAMU_API VertexArray
     {
     public:
         VertexArray();

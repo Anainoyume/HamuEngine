@@ -1,16 +1,16 @@
 #pragma once
 
-#include "Core.h"
-#include "../cube_data.h"
+#include "runtime/Core.h"
+#include "cube_data.h"
 
 #include "GLFW/glfw3.h"
 #include "glm/ext/matrix_float4x4.hpp"
 #include "imgui.h"
 
 #include "glm/gtc/type_ptr.hpp"
-#include "render/MeshRenderer.h"
-#include "render/Renderer.h"
-#include "render/TextureDescriptor.h"
+#include "runtime/render/MeshRenderer.h"
+#include "runtime/render/Renderer.h"
+#include "runtime/render/TextureDescriptor.h"
 
 #include <algorithm>
 #include <chrono>

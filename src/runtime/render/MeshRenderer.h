@@ -1,8 +1,10 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "Material.h"
 #include "Mesh.h"
-#include "core/transform/Transform.h"
+#include "runtime/transform/Transform.h"
 
 #include <memory>
 #include <vector>
@@ -10,7 +12,7 @@
 namespace hamu
 {
 
-    class MeshRenderer
+    class HAMU_API MeshRenderer
     {
     public:
         using MeshPtr     = std::shared_ptr<Mesh>;

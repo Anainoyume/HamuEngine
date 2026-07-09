@@ -1,12 +1,14 @@
 #pragma once
 
-#include "core/transform/Transform.h"
+#include "platform/api.h"
+
+#include "runtime/transform/Transform.h"
 #include <memory>
 
 namespace hamu
 {
 
-    class Camera
+    class HAMU_API Camera
     {
     public:
         Camera()  = default;

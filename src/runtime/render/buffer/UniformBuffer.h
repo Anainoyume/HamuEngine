@@ -1,11 +1,13 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "glad/glad.h"
 
 namespace hamu
 {
 
-    class UniformBuffer
+    class HAMU_API UniformBuffer
     {
     public:
         UniformBuffer();

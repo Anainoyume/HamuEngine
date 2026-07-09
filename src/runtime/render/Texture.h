@@ -1,5 +1,7 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "glad/glad.h"
 
 #include <filesystem>
@@ -11,7 +13,7 @@ namespace fs = std::filesystem;
 namespace hamu
 {
 
-    class Texture
+    class HAMU_API Texture
     {
     public:
         Texture() = default;

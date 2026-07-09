@@ -1,13 +1,15 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "buffer/VertexBuffer.h"
 #include "glad/glad.h"
 
-#include "core/application/Application.h"
+#include "runtime/application/Application.h"
 #include "buffer/UniformBuffer.h"
-#include "core/render/buffer/IndexBuffer.h"
-#include "core/transform/Transform.h"
-#include "core/camera/Camera.h"
+#include "runtime/render/buffer/IndexBuffer.h"
+#include "runtime/transform/Transform.h"
+#include "runtime/camera/Camera.h"
 #include "Material.h"
 #include "Mesh.h"
 
@@ -21,7 +23,7 @@ namespace hamu
 {
     class Mesh;
 
-    struct RenderCommand
+    struct HAMU_API RenderCommand
     {
         uint64_t sort_key;
 
@@ -41,7 +43,7 @@ namespace hamu
         bool operator<(const RenderCommand& other) const { return sort_key < other.sort_key; }
     };
 
-    struct RenderProfileBlock
+    struct HAMU_API RenderProfileBlock
     {
         size_t drawcall_count         = 0;
         size_t mesh_binding_count     = 0;
@@ -62,7 +64,7 @@ namespace hamu
         }
     };
 
-    class Renderer
+    class HAMU_API Renderer
     {
     public:
         static void Submit(const Mesh* mesh, SubMesh submesh, const Transform* transform, const Material* materials);

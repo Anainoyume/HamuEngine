@@ -1,9 +1,11 @@
 #pragma once
 
+#include "platform/api.h"
+
 namespace hamu
 {
 
-    class Behavior
+    class HAMU_API Behavior
     {
     public:
         virtual ~Behavior() = default;

@@ -1,5 +1,7 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "Shader.h"
 #include "Texture.h"
 #include "buffer/UniformBuffer.h"
@@ -16,7 +18,7 @@ namespace hamu
         std::shared_ptr<Texture> texture;
     };
 
-    class Material
+    class HAMU_API Material
     {
     public:
         static Material default_material;

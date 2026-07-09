@@ -1,5 +1,7 @@
 #pragma once
 
+#include "platform/api.h"
+
 #include "glad/glad.h"
 
 #include <ostream>
@@ -42,7 +44,7 @@ namespace hamu
         friend std::ostream& operator<<(std::ostream& os, const VertexAttribute& attribute);
     };
 
-    class VertexLayout
+    class HAMU_API VertexLayout
     {
     public:
         VertexLayout();
