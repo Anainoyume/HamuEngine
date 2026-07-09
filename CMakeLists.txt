@@ -1,15 +1,29 @@
 cmake_minimum_required(VERSION 3.20)
 
-project(app)
+project(HamuEngineProject)
 
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# ---- glad 单独处理 ----
-set(GLAD_SRC "${CMAKE_CURRENT_SOURCE_DIR}/src/lib/glad.c")
-set_source_files_properties(${GLAD_SRC} PROPERTIES LANGUAGE C)
+# 可执行文件输出目录
+set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# 自己的代码：显式列
+# 动态库输出目录 (.dll / .so)
+set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
+
+# 静态库输出目录 (.lib / .a)
+set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
+
+# 导入第三方库子构建目录
+add_subdirectory(third_party)
+
+# 常用的库
+set(COMMON_LIB_NAME
+    winpthread
+    opengl32
+)
+
+# ----------------------------- App Configuration ------------------------------
 set(ENGINE_SRC
     "src/core/render/Shader.cpp"
     "src/core/render/Texture.cpp"
@@ -35,123 +49,38 @@ set(ENGINE_SRC
     "src/utils/tiny_json/JsonUtils.cpp"
 )
 
-# 第三方代码：imgui
-set(IMGUI_SRC
-    "include/imgui/imgui.cpp"
-    "include/imgui/imgui_draw.cpp"
-    "include/imgui/imgui_widgets.cpp"
-    "include/imgui/imgui_tables.cpp"
-    "include/imgui/imgui_demo.cpp"
-    "include/imgui/backends/imgui_impl_glfw.cpp"
-    "include/imgui/backends/imgui_impl_opengl3.cpp"
-    "include/imgui/backends/imgui_impl_opengl3.cpp"
-    "include/imgui/backends/imgui_impl_glfw.cpp"
+add_library(HamuEngine SHARED ${ENGINE_SRC})
+# 公开一下头文件路径
+target_include_directories(HamuEngine PUBLIC 
+    "src"
 )
-
-# ------------------------------------ 合并 --------------------------------------
-add_executable(lab
-    "src/Lesson4.cpp"
-
-    ${ENGINE_SRC}
-    ${IMGUI_SRC}
-    ${GLAD_SRC}
+target_link_libraries(HamuEngine PRIVATE 
+    ${COMMON_LIB_NAME}
+    glad
+    glfw
+    glm
+    imgui
+    stb_image
 )
-
-target_include_directories(lab PRIVATE 
-    "include" 
-    "include/imgui"
-    "include/stb_image"
-    "src/core"
-    "src/utils"
-)
-target_link_directories(lab PRIVATE "lib")
-target_link_libraries(lab PRIVATE 
-    winpthread
-    opengl32
-    libglfw3.a
-)
-
-# 添加宏定义，使用自定义的 OpenGL 加载器
-target_compile_definitions(lab PRIVATE
-    IMGUI_IMPL_OPENGL_LOADER_CUSTOM
-    # CPU_PROFILER
-)
-
-
-
-# ----------------------------- App Configuration ------------------------------
-add_executable(app 
-    "src/Test/ImguiExample.cpp"
-
-    "include/imgui/imgui.cpp"
-    "include/imgui/imgui_draw.cpp"
-    "include/imgui/imgui_widgets.cpp"
-    "include/imgui/imgui_tables.cpp"
-    "include/imgui/imgui_demo.cpp"
-    "include/imgui/backends/imgui_impl_glfw.cpp"
-    "include/imgui/backends/imgui_impl_opengl3.cpp"
-    "include/imgui/backends/imgui_impl_opengl3.cpp"
-    "include/imgui/backends/imgui_impl_glfw.cpp"
-
-    ${GLAD_SRC}
-)
-
-target_include_directories(app PRIVATE
-    "include"
-    "include/imgui"
-)
-
-target_link_directories(app PRIVATE
-    "lib"
-)
-
-target_link_libraries(app PRIVATE 
-    winpthread
-    opengl32
-    libglfw3.a
-)
-
-target_compile_options(app PRIVATE
+target_compile_options(HamuEngine PRIVATE
     -fdiagnostics-show-template-tree
     -ferror-limit=1
 )
-
-# 添加宏定义，使用自定义的 OpenGL 加载器
-target_compile_definitions(app PRIVATE
-    IMGUI_IMPL_OPENGL_LOADER_CUSTOM
+target_compile_definitions(HamuEngine PRIVATE
+    HAMU_ENGINE_DLL_EXPORT
 )
+
 
 
 # ---------------------------------- SandBox -----------------------------------
-add_executable(sandbox
-    "src/Test/SandBox.cpp"
-    "src/utils/tiny_json/JsonNode.cpp"
-    "src/utils/tiny_json/JsonLexer.cpp"
-    "src/utils/tiny_json/JsonParser.cpp"
-    "src/utils/tiny_json/JsonDomBuilder.cpp"
-    "src/utils/tiny_json/JsonUtils.cpp"
-    "src/utils/tiny_json/example/test01.cpp"
-
-    "src/core/transform/Transform.cpp"
+set(SANDBOX_SRC
+    "sandbox/main.cpp"
 )
 
-target_include_directories(sandbox PRIVATE 
-    "include" 
-    "src/core"
-    "src/Test"
-    "src/Test/include"
-    "src/utils"
+add_executable(SandBox ${SANDBOX_SRC})
+target_include_directories(SandBox PRIVATE "sandbox")
+target_link_libraries(SandBox PRIVATE 
+    ${COMMON_LIB_NAME}
+    HamuEngine    
 )
-
-
-target_link_directories(sandbox PRIVATE 
-    "lib"
-)
-
-target_link_libraries(sandbox PRIVATE 
-    winpthread
-    opengl32
-    libglfw3.a
-)
-
 

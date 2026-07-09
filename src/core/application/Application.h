@@ -2,8 +2,8 @@
 
 #include "GLFW/glfw3.h"
 
-#include "behavior/Behavior.h"
-#include "camera/Camera.h"
+#include "core/behavior/Behavior.h"
+#include "core/camera/Camera.h"
 
 #include <iostream>
 #include <memory>

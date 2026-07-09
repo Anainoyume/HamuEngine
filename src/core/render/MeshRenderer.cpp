@@ -1,5 +1,5 @@
 #include "MeshRenderer.h"
-#include "render/Renderer.h"
+#include "core/render/Renderer.h"
 
 namespace hamu
 {

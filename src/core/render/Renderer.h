@@ -3,11 +3,11 @@
 #include "buffer/VertexBuffer.h"
 #include "glad/glad.h"
 
-#include "application/Application.h"
+#include "core/application/Application.h"
 #include "buffer/UniformBuffer.h"
-#include "render/buffer/IndexBuffer.h"
-#include "transform/Transform.h"
-#include "camera/Camera.h"
+#include "core/render/buffer/IndexBuffer.h"
+#include "core/transform/Transform.h"
+#include "core/camera/Camera.h"
 #include "Material.h"
 #include "Mesh.h"
 
@@ -38,9 +38,7 @@ namespace hamu
         RenderCommand(const Mesh* mesh, const Transform* transform, const Material* material, SubMesh submesh);
 
         // 2. 修复 operator<
-        bool operator<(const RenderCommand& other) const {
-            return sort_key < other.sort_key;
-        }
+        bool operator<(const RenderCommand& other) const { return sort_key < other.sort_key; }
     };
 
     struct RenderProfileBlock

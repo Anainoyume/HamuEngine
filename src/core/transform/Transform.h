@@ -5,9 +5,9 @@
 #include "glm/vec3.hpp"
 #include "glm/gtc/quaternion.hpp"
 
-#include "tiny_json/JsonNode.h"
-#include "tiny_json/JsonSerde.h"
-#include "tiny_json/JsonWriter.h"
+#include "utils/tiny_json/JsonNode.h"
+#include "utils/tiny_json/JsonSerde.h"
+#include "utils/tiny_json/JsonWriter.h"
 
 namespace hamu
 {

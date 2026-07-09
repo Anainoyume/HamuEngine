@@ -6,7 +6,7 @@
 #include "backends/imgui_impl_glfw.h"
 #include "backends/imgui_impl_opengl3.h"
 #include "imgui.h"
-#include "render/Renderer.h"
+#include "core/render/Renderer.h"
 
 #include <iostream>
 

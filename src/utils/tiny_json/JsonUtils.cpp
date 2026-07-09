@@ -1,8 +1,8 @@
 #include "JsonUtils.h"
 
-#include "tiny_json/JsonDOMBuilder.h"
-#include "tiny_json/JsonParser.h"
-#include "utils/Utils.h"
+#include "JsonDOMBuilder.h"
+#include "JsonParser.h"
+#include "core/tool/Utils.h"
 
 #include <cstddef>
 #include <cstdint>

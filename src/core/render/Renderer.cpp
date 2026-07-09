@@ -6,9 +6,9 @@
 #include "glm/ext/matrix_float4x4.hpp"
 #include "glm/gtc/type_ptr.hpp"
 #include "imgui.h"
-#include "render/Mesh.h"
-#include "render/buffer/IndexBuffer.h"
-#include "transform/Transform.h"
+#include "core/render/Mesh.h"
+#include "core/render/buffer/IndexBuffer.h"
+#include "core/transform/Transform.h"
 #include <GL/gl.h>
 #include <algorithm>
 #include <chrono>

@@ -1,5 +1,5 @@
 #include "Material.h"
-#include "render/buffer/IndexBuffer.h"
+#include "core/render/buffer/IndexBuffer.h"
 #include <iostream>
 
 namespace hamu
