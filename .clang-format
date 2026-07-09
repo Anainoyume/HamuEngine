@@ -1,0 +1,88 @@
+# ---------------------------------------------------------------------------------- #
+#                                                                                    #
+#                                  clang-format 文档                                  #
+#              https://clang.llvm.org/docs/ClangFormatStyleOptions.html              #
+#                                                                                    #
+#                                  21.1.0 归档版                                      #
+#   https://releases.llvm.org/21.1.0/tools/clang/docs/ClangFormatStyleOptions.html   #
+#                                                                                    #
+# ---------------------------------------------------------------------------------- #
+
+
+# 基于 Google 风格，可以改成 LLVM、Mozilla、WebKit、Microsoft 等
+BasedOnStyle: Microsoft                                  
+
+AccessModifierOffset: -4                            
+IndentWidth: 4                                      # 缩进宽度4个空格
+TabWidth: 4                                         # Tab 等同4个空格
+UseTab: Never                                       # 不使用 Tab，使用空格缩进
+
+# 设置基本信息
+ColumnLimit: 120                                    # 代码最大宽度（换行限制）
+AllowShortFunctionsOnASingleLine: Inline            # 简短函数可以写成一行 (InlineOnly: 仅限类内部, 但不合并空实现) (Inline: 包括 empty)
+IndentCaseLabels: true                              # 会缩进 switch 的 case
+AllowShortCaseLabelsOnASingleLine: true             # 可以压缩 switch 的 case
+DerivePointerAlignment: false                       # 不自动推导指针对齐，下面单独设置
+PointerAlignment: Left                              # 指针星号靠左，如 `int* ptr`                    
+Standard: c++20                                     # 代码标准，使用 C++20
+SortIncludes: false                                 # 自动排序 include 语句
+SpaceBeforeParens: ControlStatements                # 控制语句如 if、for 前有空格，函数调用无空格
+ConstructorInitializerIndentWidth: 4                # 构造函数初始化列表缩进宽度
+AllowShortIfStatementsOnASingleLine: WithoutElse    # 短 if 语句不要写成一行，保证可读
+
+# BreakAfterOpenBracketBracedList: true               # 强制在括号初始化列表的左括号后换行
+# BreakBeforeCloseBracketBracedList: true             # 强制在括号初始化列表的右括号后换行
+
+# 设置模板声明和定义的换行规则
+BreakTemplateDeclarations: Yes
+
+# 定义尾空行
+SeparateDefinitionBlocks: Leave                     # 保留用户自定义的空行
+MaxEmptyLinesToKeep: 3
+
+# 命名空间缩进
+NamespaceIndentation: All
+
+# AlignAfterOpenBracket (AlwaysBreak: 左括号换行, 参数对齐左括号, 右括号不单独换行            )
+#                       (BlockIndent: 左括号换行, 参数使用常规块缩进, 右括号单独一行与函数名对齐 )
+AlignAfterOpenBracket: BlockIndent      # 如果第一个参数换行了, 其他参数也必须换行
+Cpp11BracedListStyle: true
+AlignOperands: AlignAfterOperator
+AllowAllArgumentsOnNextLine: true       # 允许所有参数换行
+BinPackArguments: false                 # 不把参数紧凑放在一行
+BinPackLongBracedList: false            # 括号初始化
+SpaceBeforeCpp11BracedList: true        # 括号初始化前面加空格
+BreakBeforeBinaryOperators: None
+
+AllowShortLambdasOnASingleLine: false
+ContinuationIndentWidth: 4
+
+# 注释格式化的样式 (Never: 保留注释不变)
+ReflowComments: Never
+
+AlignTrailingComments: 
+  Kind: Always
+  OverEmptyLines: 1
+
+
+# 连续赋值的对齐方式
+AlignConsecutiveAssignments: Consecutive
+
+
+# 大括号风格，Allman 是换行大括号，也可以用 Attach（同一行）
+BreakBeforeBraces: Custom                           
+BraceWrapping:
+  # BraceWrappingAfterControlStatementStyle: BWACS_MultiLine
+  BeforeElse: true
+  BeforeCatch: true
+  AfterControlStatement: false
+  AfterFunction: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+  AfterNamespace: true
+  AfterStruct: true
+  AfterClass: true
+  IndentBraces: false
+  AfterEnum: true
+  AfterExternBlock: true

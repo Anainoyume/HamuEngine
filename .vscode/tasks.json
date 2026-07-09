@@ -1,0 +1,19 @@
+{
+    "tasks": [
+        {
+            "label": "CMake Build",
+            "type": "cmake",
+            "command": "build",
+            "targets": [
+                "lab"
+            ],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "problemMatcher": [],
+            "detail": "CMake 构建程序"
+        }
+    ],
+    "version": "2.0.0"
+}

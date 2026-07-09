@@ -1,0 +1,305 @@
+#include "Core.h"
+
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
+// GLM 数学库
+#include "glm/ext/quaternion_geometric.hpp"
+#include "glm/geometric.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/trigonometric.hpp"
+
+#include <algorithm>
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+// 窗口参数
+int screen_width  = 1024;
+int screen_height = 768;
+
+// 摄像机
+float fov    = glm::radians(45.0f);
+float aspect = 1.0f * screen_width / screen_height;
+float near   = 0.1f;
+float far    = 100.0f;
+hamu::Camera camera;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    screen_width  = width;
+    screen_height = height;
+    camera.SetAspect(width, height);
+
+    glViewport(0, 0, screen_width, screen_height);
+}
+
+float mouseX           = screen_width / 2.0f;
+float mouseY           = screen_height / 2.0f;
+float yaw              = 0.0f; // 左右
+float pitch            = 0.0f; // 上下
+float roll             = 0.0f; // 滚转
+bool firstMouse        = true;
+bool disableMouseInput = false;
+void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+    if (firstMouse) {
+        mouseX     = xpos;
+        mouseY     = ypos;
+        firstMouse = false;
+    }
+
+    if (disableMouseInput) {
+        return;
+    }
+
+    float offset_x = xpos - mouseX;
+    float offset_y = mouseY - ypos; // ypos 的原点在左上角, 因此需要反转
+    mouseX         = xpos;
+    mouseY         = ypos;
+
+    float sensitivity = 0.05f;
+    offset_x *= sensitivity;
+    offset_y *= sensitivity;
+
+    yaw -= offset_x; // opengl 的坐标系是右手系, 因此鼠标向右移动时, 视角应该向左转
+    pitch = std::clamp(pitch + offset_y, -89.0f, 89.0f);
+    glm::vec3 eulerAngles(glm::radians(pitch), glm::radians(yaw), glm::radians(roll));
+
+    camera.GetTransform().rotation = glm::quat(eulerAngles);
+}
+
+void processInput(GLFWwindow* window, float deltaTime) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        // glfwSetWindowShouldClose(window, true);
+
+        // 释放并显示鼠标
+        disableMouseInput = true;
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS) {
+        // 隐藏并捕捉鼠标
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        disableMouseInput = false;
+        firstMouse = true; // 防止跳动
+    }
+
+    float cameraSpeed = 20.0f * deltaTime; // adjust accordingly
+    glm::vec3 forward = camera.GetTransform().Forward();
+    glm::vec3 up      = camera.GetTransform().Up();
+    glm::vec3 right   = camera.GetTransform().Right();
+    glm::vec3 moveDir = glm::vec3(0.0f);
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        moveDir += forward;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        moveDir -= forward;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        moveDir -= right;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        moveDir += right;
+    }
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+        moveDir += up;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+        moveDir -= up;
+    }
+
+    // 如果不是零向量才移动, 否则计算出现 NaN, 污染所有的矩阵计算
+    if (glm::length(moveDir) > 1e-5f) {
+        camera.GetTransform().position += glm::normalize(moveDir) * cameraSpeed;
+    }
+}
+
+int main() {
+
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+    GLFWwindow* window = glfwCreateWindow(screen_width, screen_height, "LearnOpenGL", NULL, NULL);
+    if (window == NULL) {
+        std::cerr << "Failed to create GLFW window" << '\n';
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+
+    // 加载 opengl 函数 - 必须在持有上下文后才能正确加载
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }
+
+    glViewport(0, 0, screen_width, screen_height);
+
+    // 隐藏并捕捉鼠标
+    // 第一个参数: 窗口指针
+    // 第二个参数: 模式, GLFW_CURSOR 表示设置鼠标光标的可见性和行为
+    // 第三个参数: GLFW_CURSOR_DISABLED 表示隐藏光标并锁定在窗口
+    glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+    // 注册回调
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
+
+
+
+    // 加载纹理
+    hamu::Texture tex1(
+        "resource/textures/stone.png",
+        true,
+        {
+            // 原图是灰度图, 强制使用 3 通道 RGB
+            .required_channels = 3,
+            .warp_s            = GL_REPEAT,
+            .warp_t            = GL_REPEAT,
+            .min_filter        = GL_NEAREST,
+            .mag_filter        = GL_NEAREST,
+        }
+    );
+    tex1.Bind();
+
+
+    // clang-format off
+    // 立方体, 为了保持每个面的法线, 贴图正确, 最少需要 24 个点
+    std::vector cube = {
+    //   posx   posy   posz    u      v
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, 
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,
+        -0.5f,  0.5f, -0.5f,  0.0f,  1.0f,
+         0.5f,  0.5f, -0.5f,  1.0f,  1.0f,
+         
+        -0.5f, -0.5f,  0.5f,  0.0f,  0.0f, 
+         0.5f, -0.5f,  0.5f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, 
+        -0.5f,  0.5f, -0.5f,  1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  1.0f,
+        -0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
+
+         0.5f, -0.5f, -0.5f,  0.0f,  0.0f, 
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,
+         0.5f, -0.5f,  0.5f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
+
+        -0.5f, -0.5f, -0.5f,  0.0f,  0.0f, 
+         0.5f, -0.5f, -0.5f,  1.0f,  0.0f,
+        -0.5f, -0.5f,  0.5f,  0.0f,  1.0f,
+         0.5f, -0.5f,  0.5f,  1.0f,  1.0f,
+
+        -0.5f,  0.5f, -0.5f,  0.0f,  0.0f, 
+         0.5f,  0.5f, -0.5f,  1.0f,  0.0f,
+        -0.5f,  0.5f,  0.5f,  0.0f,  1.0f,
+         0.5f,  0.5f,  0.5f,  1.0f,  1.0f,
+    };
+
+    // 立方体三角形索引
+    std::vector<unsigned int> cube_indices = {
+        0,  1,  2,  1,  2,  3,
+        4,  5,  6,  5,  6,  7,
+        8,  9,  10, 9,  10, 11,
+        12, 13, 14, 13, 14, 15,
+        16, 17, 18, 17, 18, 19,
+        20, 21, 22, 21, 22, 23
+    };
+    
+    std::vector cube_transform = {
+        hamu::Transform(glm::vec3( 0.0f,  0.0f,  1.0f )), 
+        hamu::Transform(glm::vec3( 2.0f,  5.0f, -15.0f)), 
+        hamu::Transform(glm::vec3(-1.5f, -2.2f, -2.5f )),  
+        hamu::Transform(glm::vec3(-3.8f, -2.0f, -12.3f)),  
+        hamu::Transform(glm::vec3( 2.4f, -0.4f, -3.5f )),  
+        hamu::Transform(glm::vec3(-1.7f,  3.0f, -7.5f )),  
+        hamu::Transform(glm::vec3( 1.3f, -2.0f, -2.5f )),  
+        hamu::Transform(glm::vec3( 1.5f,  2.0f, -2.5f )), 
+        hamu::Transform(glm::vec3( 1.5f,  0.2f, -1.5f )), 
+        hamu::Transform(glm::vec3(-1.3f,  1.0f, -1.5f ))  
+    };
+    // clang-format on
+
+
+    hamu::Shader shader("resource/shaders/demo02.vert", "resource/shaders/demo02.frag");
+
+
+    hamu::VertexBuffer vbo(cube);
+    hamu::IndexBuffer ebo(cube_indices);
+
+    hamu::VertexLayout layout;
+    layout.PushFloat(3); // pos
+    layout.PushFloat(2); // texcoord
+
+    hamu::VertexArray vao;
+    vao.AddVertexLayout(vbo, layout);
+    vao.SetIndexBuffer(ebo);
+
+    // 目前只有一个着色器, 可以循环之前就直接使用
+    shader.Use();
+    shader.SetInt("texture1", 0);
+
+
+
+    // 摄像机
+    camera.SetAspect(aspect);
+    camera.SetFov(fov);
+    camera.SetNear(near);
+    camera.SetFar(far);
+
+    camera.GetTransform().position = glm::vec3(0.0f, 0.0f, 7.0f);
+
+
+
+    // 渲染之前的配置
+    glEnable(GL_DEPTH_TEST); // 开启深度测试
+
+
+    auto lastTime  = 0.0;
+    auto deltaTime = 0.0f;
+    while (!glfwWindowShouldClose(window)) {
+        deltaTime = glfwGetTime() - lastTime;
+        lastTime  = glfwGetTime();
+
+        // 处理输入
+        processInput(window, deltaTime);
+
+
+        // Clear
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 颜色缓存和深度缓存都需要清理
+
+
+        // 数据传递, 这些矩阵几乎需要每帧传递
+        shader.SetMatrix4fv("worldToView", glm::value_ptr(camera.GetViewMatrix()));
+        shader.SetMatrix4fv("viewToClip", glm::value_ptr(camera.GetProjectionMatrix()));
+
+        // Draw ( Render )
+        glBindVertexArray(vao.Id());
+        for (auto& trans : cube_transform) {
+            // 注意这里的四元数旋转是叠加旋转 因此是 q1 * q2, 只有作用于向量时才是那个公式 q * v * q^-1
+            // glm 里所有乘法都是右乘, 这方便我们自己排布顺序
+            trans.rotation =
+                glm::rotate(trans.rotation, deltaTime * glm::radians(90.0f), glm::normalize(trans.position));
+            // trans.scale = glm::vec3(std::clamp(static_cast<float>(std::sin(glfwGetTime()) + 1.0f), 0.1f, 2.0f));
+            shader.SetMatrix4fv("objectToWorld", glm::value_ptr(trans.GetModelMatrix()));
+
+            glDrawElements(GL_TRIANGLES, cube_indices.size(), GL_UNSIGNED_INT, 0);
+        }
+        glBindVertexArray(0);
+
+
+        // Swap And PollEvent
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+
+    return 0;
+}

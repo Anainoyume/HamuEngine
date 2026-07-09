@@ -1,0 +1,332 @@
+#include "Core.h"
+#include "learn/cube_data.h" // 数据
+
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
+// GLM 数学库
+#include "glm/ext/quaternion_geometric.hpp"
+#include "glm/geometric.hpp"
+#include "glm/gtc/matrix_transform.hpp"
+#include "glm/gtc/type_ptr.hpp"
+#include "glm/trigonometric.hpp"
+
+// imgui
+#include "backends/imgui_impl_glfw.h"
+#include "backends/imgui_impl_opengl3.h"
+#include "imgui.h"
+#include "transform/Transform.h"
+
+#include <algorithm>
+#include <iostream>
+#include <random>
+#include <vector>
+#include <cmath>
+
+// 窗口参数
+int screen_width  = 853;
+int screen_height = 533;
+
+// 摄像机
+float fov    = glm::radians(45.0f);
+float aspect = 1.0f * screen_width / screen_height;
+float near   = 0.1f;
+float far    = 100.0f;
+hamu::Camera camera;
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    screen_width  = width;
+    screen_height = height;
+    camera.SetAspect(width, height);
+
+    glViewport(0, 0, screen_width, screen_height);
+}
+
+float mouseX           = screen_width / 2.0f;
+float mouseY           = screen_height / 2.0f;
+float yaw              = 0.0f; // 左右
+float pitch            = 0.0f; // 上下
+float roll             = 0.0f; // 滚转
+bool firstMouse        = true;
+bool disableMouseInput = false;
+void mouse_callback(GLFWwindow* window, double xpos, double ypos) {
+    if (firstMouse) {
+        mouseX     = xpos;
+        mouseY     = ypos;
+        firstMouse = false;
+    }
+
+    if (disableMouseInput) {
+        return;
+    }
+
+    float offset_x = xpos - mouseX;
+    float offset_y = mouseY - ypos; // ypos 的原点在左上角, 因此需要反转
+    mouseX         = xpos;
+    mouseY         = ypos;
+
+    float sensitivity = 0.05f;
+    offset_x *= sensitivity;
+    offset_y *= sensitivity;
+
+    yaw -= offset_x; // opengl 的坐标系是右手系, 因此鼠标向右移动时, 视角应该向左转
+    pitch = std::clamp(pitch + offset_y, -89.0f, 89.0f);
+    glm::vec3 eulerAngles(glm::radians(pitch), glm::radians(yaw), glm::radians(roll));
+
+    camera.GetTransform().setRotation(glm::quat(eulerAngles));
+}
+
+void processInput(GLFWwindow* window, float deltaTime) {
+    ImGuiIO& io = ImGui::GetIO();
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        // glfwSetWindowShouldClose(window, true);
+
+        // 释放并显示鼠标
+        disableMouseInput = true;
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_NORMAL);
+    }
+
+    if (glfwGetMouseButton(window, GLFW_MOUSE_BUTTON_LEFT) == GLFW_PRESS && !io.WantCaptureMouse) {
+        // 隐藏并捕捉鼠标
+        glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+        disableMouseInput = false;
+        firstMouse        = true; // 防止跳动
+    }
+
+    float cameraSpeed = 20.0f * deltaTime; // adjust accordingly
+    glm::vec3 forward = camera.GetTransform().Forward();
+    glm::vec3 up      = camera.GetTransform().Up();
+    glm::vec3 right   = camera.GetTransform().Right();
+    glm::vec3 moveDir = glm::vec3(0.0f);
+    if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS) {
+        moveDir += forward;
+    }
+    if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS) {
+        moveDir -= forward;
+    }
+    if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS) {
+        moveDir -= right;
+    }
+    if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS) {
+        moveDir += right;
+    }
+    if (glfwGetKey(window, GLFW_KEY_E) == GLFW_PRESS) {
+        moveDir += up;
+    }
+    if (glfwGetKey(window, GLFW_KEY_Q) == GLFW_PRESS) {
+        moveDir -= up;
+    }
+
+    // 如果不是零向量才移动, 否则计算出现 NaN, 污染所有的矩阵计算
+    if (glm::length(moveDir) > 1e-5f) {
+        camera.GetTransform().setPosition(camera.GetTransform().getPosition() + glm::normalize(moveDir) * cameraSpeed);
+    }
+}
+
+int main() {
+
+    const char* glsl_version = "#version 330";
+    if (!glfwInit()) return -1;
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+    // 获取主显示器的缩放因子
+    float main_scale = ImGui_ImplGlfw_GetContentScaleForMonitor(glfwGetPrimaryMonitor()); // 仅适用于 GLFW 3.3+
+
+    GLFWwindow* window =
+        glfwCreateWindow(screen_width * main_scale, screen_height * main_scale, "LearnOpenGL", NULL, NULL);
+
+    if (window == NULL) {
+        std::cerr << "Failed to create GLFW window" << '\n';
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+
+
+
+    // 配置imgui, glad 的初始化也在这里
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    (void)io;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+
+    ImGui::StyleColorsDark();
+
+    ImGuiStyle& style = ImGui::GetStyle();
+    style.ScaleAllSizes(main_scale);
+    style.FontScaleDpi = main_scale;
+    style.FontSizeBase = 15.0f;
+    io.Fonts->AddFontFromFileTTF("c:\\Windows\\Fonts\\msyh.ttc");
+
+
+    // 先设置我们自己的回调
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+    glfwSetCursorPosCallback(window, mouse_callback);
+
+
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
+    ImGui_ImplOpenGL3_Init(glsl_version); // 内部会进行 gladLoadGLLoader 的调用
+
+
+
+    glViewport(0, 0, screen_width * main_scale, screen_height * main_scale);
+    // glfwSetInputMode(window, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+
+
+    // 加载纹理
+    hamu::Texture tex1(
+        "resource/textures/stone.png",
+        true,
+        {
+            // 原图是灰度图, 强制使用 3 通道 RGB
+            .required_channels = 3,
+            .warp_s            = GL_REPEAT,
+            .warp_t            = GL_REPEAT,
+            .min_filter        = GL_NEAREST,
+            .mag_filter        = GL_NEAREST,
+        }
+    );
+    tex1.Bind();
+
+
+    hamu::Shader shader("resource/shaders/demo02.vert", "resource/shaders/demo02.frag");
+
+
+    hamu::VertexBuffer vbo(cube);
+    hamu::IndexBuffer ebo(cube_indices);
+
+    hamu::VertexLayout layout;
+    layout.PushFloat(3); // pos
+    layout.PushFloat(2); // texcoord
+
+    hamu::VertexArray vao;
+    vao.AddVertexLayout(vbo, layout);
+    vao.SetIndexBuffer(ebo);
+
+    // 目前只有一个着色器, 可以循环之前就直接使用
+    shader.Use();
+    shader.SetInt("texture1", 0);
+
+
+
+    // 摄像机
+    camera.SetAspect(aspect);
+    camera.SetFov(fov);
+    camera.SetNear(near);
+    camera.SetFar(far);
+
+    camera.GetTransform().setPosition(glm::vec3(0.0f, 0.0f, 7.0f));
+
+
+
+    // 渲染之前的配置
+    glEnable(GL_DEPTH_TEST); // 开启深度测试
+
+    // 随机数生成器
+    std::random_device rd;
+    std::mt19937 gen(rd()); // Mersenne Twister 引擎
+    std::uniform_real_distribution<float> dist(-10.0f, 10.0f);
+    std::vector<hamu::Transform> cube_transform;
+    cube_transform.reserve(10);
+    for (size_t i = 0; i < 10; i++) {
+        glm::vec3 pos(dist(gen), dist(gen), dist(gen));
+        cube_transform.emplace_back(pos);
+    }
+
+
+    auto lastTime  = 0.0;
+    auto deltaTime = 0.0f;
+    while (!glfwWindowShouldClose(window)) {
+        deltaTime = glfwGetTime() - lastTime;
+        lastTime  = glfwGetTime();
+
+        // 处理输入
+        processInput(window, deltaTime);
+
+        // 轮询和处理事件（输入、窗口大小调整等）
+        glfwPollEvents();
+        if (glfwGetWindowAttrib(window, GLFW_ICONIFIED) != 0) {
+            ImGui_ImplGlfw_Sleep(10);
+            continue;
+        }
+
+        // 启动亲爱的 ImGui 框架
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+
+
+        // Clear
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT); // 颜色缓存和深度缓存都需要清理
+
+
+        // 数据传递, 这些矩阵几乎需要每帧传递
+        shader.SetMatrix4fv("worldToView", glm::value_ptr(camera.GetViewMatrix()));
+        shader.SetMatrix4fv("viewToClip", glm::value_ptr(camera.GetProjectionMatrix()));
+
+        // Draw ( Render )
+        glBindVertexArray(vao.Id());
+
+        for (auto& trans : cube_transform) {
+            // 注意这里的四元数旋转是叠加旋转 因此是 q1 * q2, 只有作用于向量时才是那个公式 q * v * q^-1
+            // glm 里所有乘法都是右乘, 这方便我们自己排布顺序
+            trans.setRotation(
+                glm::rotate(trans.getRotation(), deltaTime * glm::radians(90.0f), glm::normalize(trans.getPosition()))
+            );
+            // trans.scale = glm::vec3(std::clamp(static_cast<float>(std::sin(glfwGetTime()) + 1.0f), 0.1f, 2.0f));
+            shader.SetMatrix4fv("objectToWorld", glm::value_ptr(trans.GetModelMatrix()));
+
+            glDrawElements(GL_TRIANGLES, cube_indices.size(), GL_UNSIGNED_INT, 0);
+        }
+        glBindVertexArray(0);
+
+
+
+        {
+            static float f     = glm::degrees(fov);
+            static int counter = 0;
+
+            ImGui::Begin("Hello, world!");
+
+            ImGui::Text("This is some useful text.");
+
+            ImGui::SliderFloat("float", &f, 10.0f, 100.0f);
+            camera.SetFov(glm::radians(f));
+
+
+            if (ImGui::Button("Button")) counter++;
+            ImGui::SameLine();
+            ImGui::Text("counter = %d", counter);
+
+            ImGui::Text("Application average %.3f ms/frame (%.1f FPS)", 1000.0f / io.Framerate, io.Framerate);
+            ImGui::End();
+        }
+
+        ImGui::Render();
+        // int display_w, display_h;
+        // glfwGetFramebufferSize(window, &display_w, &display_h);
+        // glViewport(0, 0, display_w, display_h);
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+
+        // 交换缓冲区
+        glfwSwapBuffers(window);
+    }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
+
+    glfwDestroyWindow(window);
+    glfwTerminate();
+
+    return 0;
+}

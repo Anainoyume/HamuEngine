@@ -1,0 +1,151 @@
+
+*** Dumping AST Record Layout
+         0 | class Base
+         0 |   int x
+           | [sizeof=4, dsize=4, align=4,
+           |  nvsize=4, nvalign=4]
+
+*** Dumping AST Record Layout
+         0 | class DeriveA
+         0 |   class Base (base)
+         0 |     int x
+         4 |   int y
+           | [sizeof=8, dsize=8, align=4,
+           |  nvsize=8, nvalign=4]
+
+*** Dumping AST Record Layout
+         0 | class DeriveB
+         0 |   class Base (base)
+         0 |     int x
+         4 |   int z
+           | [sizeof=8, dsize=8, align=4,
+           |  nvsize=8, nvalign=4]
+
+*** Dumping AST Record Layout
+         0 | class DeriveC
+         0 |   class DeriveA (base)
+         0 |     class Base (base)
+         0 |       int x
+         4 |     int y
+         8 |   class DeriveB (base)
+         8 |     class Base (base)
+         8 |       int x
+        12 |     int z
+        16 |   int w
+           | [sizeof=20, dsize=20, align=4,
+           |  nvsize=20, nvalign=4]
+
+*** Dumping IRgen Record Layout
+Record: CXXRecordDecl 0x26e3ab92680 <SandBox.cpp:2:1, line:4:1> line:2:7 referenced class Base definition
+|-DefinitionData pass_in_registers standard_layout trivially_copyable trivial literal
+| |-DefaultConstructor exists trivial
+| |-CopyConstructor simple trivial has_const_param implicit_has_const_param
+| |-MoveConstructor exists simple trivial
+| |-CopyAssignment simple trivial has_const_param needs_implicit implicit_has_const_param
+| |-MoveAssignment exists simple trivial needs_implicit
+| `-Destructor simple irrelevant trivial
+|-CXXRecordDecl 0x26e3ab92778 <col:1, col:7> col:7 implicit class Base
+|-FieldDecl 0x26e3ab92820 <line:3:5, col:9> col:9 x 'int'
+|-CXXConstructorDecl 0x26e3c989ef0 <line:2:7> col:7 implicit used Base 'void () noexcept' inline default trivial
+| `-CompoundStmt 0x26e3c98d8c0 <col:7>
+|-CXXDestructorDecl 0x26e3c989fd8 <col:7> col:7 implicit ~Base 'void ()' inline default trivial noexcept-unevaluated 0x26e3c989fd8
+|-CXXConstructorDecl 0x26e3c990c50 <col:7> col:7 implicit constexpr Base 'void (const Base &)' inline default trivial noexcept-unevaluated 0x26e3c990c50
+| `-ParmVarDecl 0x26e3c990d80 <col:7> col:7 'const Base &'
+`-CXXConstructorDecl 0x26e3c990e60 <col:7> col:7 implicit constexpr Base 'void (Base &&)' inline default trivial noexcept-unevaluated 0x26e3c990e60
+  `-ParmVarDecl 0x26e3c990f90 <col:7> col:7 'Base &&'
+
+Layout: <CGRecordLayout
+  LLVMType:%class.Base = type { i32 }
+  NonVirtualBaseLLVMType:%class.Base = type { i32 }
+  IsZeroInitializable:1
+  BitFields:[
+]>
+
+*** Dumping IRgen Record Layout
+Record: CXXRecordDecl 0x26e3c9891f8 <SandBox.cpp:6:1, line:8:1> line:6:7 referenced class DeriveA definition
+|-DefinitionData pass_in_registers trivially_copyable trivial literal
+| |-DefaultConstructor exists trivial
+| |-CopyConstructor simple trivial has_const_param implicit_has_const_param
+| |-MoveConstructor exists simple trivial
+| |-CopyAssignment simple trivial has_const_param needs_implicit implicit_has_const_param
+| |-MoveAssignment exists simple trivial needs_implicit
+| `-Destructor simple irrelevant trivial
+|-public 'Base'
+|-CXXRecordDecl 0x26e3c989370 <col:1, col:7> col:7 implicit class DeriveA
+|-FieldDecl 0x26e3c989418 <line:7:5, col:9> col:9 y 'int'
+|-CXXConstructorDecl 0x26e3c989df0 <line:6:7> col:7 implicit used DeriveA 'void () noexcept' inline default trivial
+| |-CXXCtorInitializer 'Base'
+| | `-CXXConstructExpr 0x26e3c98da28 <col:7> 'Base' 'void () noexcept'
+| `-CompoundStmt 0x26e3c98da90 <col:7>
+|-CXXDestructorDecl 0x26e3c98a0c8 <col:7> col:7 implicit ~DeriveA 'void ()' inline default trivial noexcept-unevaluated 0x26e3c98a0c8
+|-CXXConstructorDecl 0x26e3c991010 <col:7> col:7 implicit constexpr DeriveA 'void (const DeriveA &)' inline default trivial noexcept-unevaluated 0x26e3c991010
+| `-ParmVarDecl 0x26e3c991140 <col:7> col:7 'const DeriveA &'
+`-CXXConstructorDecl 0x26e3c991220 <col:7> col:7 implicit constexpr DeriveA 'void (DeriveA &&)' inline default trivial noexcept-unevaluated 0x26e3c991220
+  `-ParmVarDecl 0x26e3c991350 <col:7> col:7 'DeriveA &&'
+
+Layout: <CGRecordLayout
+  LLVMType:%class.DeriveA = type { %class.Base, i32 }
+  NonVirtualBaseLLVMType:%class.DeriveA = type { %class.Base, i32 }
+  IsZeroInitializable:1
+  BitFields:[
+]>
+
+*** Dumping IRgen Record Layout
+Record: CXXRecordDecl 0x26e3c9894a8 <SandBox.cpp:10:1, line:12:1> line:10:7 referenced class DeriveB definition
+|-DefinitionData pass_in_registers trivially_copyable trivial literal
+| |-DefaultConstructor exists trivial
+| |-CopyConstructor simple trivial has_const_param implicit_has_const_param
+| |-MoveConstructor exists simple trivial
+| |-CopyAssignment simple trivial has_const_param needs_implicit implicit_has_const_param
+| |-MoveAssignment exists simple trivial needs_implicit
+| `-Destructor simple irrelevant trivial
+|-public 'Base'
+|-CXXRecordDecl 0x26e3c989600 <col:1, col:7> col:7 implicit class DeriveB
+|-FieldDecl 0x26e3c9896a8 <line:11:5, col:9> col:9 z 'int'
+|-CXXConstructorDecl 0x26e3c990948 <line:10:7> col:7 implicit used DeriveB 'void () noexcept' inline default trivial
+| |-CXXCtorInitializer 'Base'
+| | `-CXXConstructExpr 0x26e3c98dc58 <col:7> 'Base' 'void () noexcept'
+| `-CompoundStmt 0x26e3c98dcc0 <col:7>
+|-CXXDestructorDecl 0x26e3c990a38 <col:7> col:7 implicit ~DeriveB 'void ()' inline default trivial noexcept-unevaluated 0x26e3c990a38
+|-CXXConstructorDecl 0x26e3c991430 <col:7> col:7 implicit constexpr DeriveB 'void (const DeriveB &)' inline default trivial noexcept-unevaluated 0x26e3c991430
+| `-ParmVarDecl 0x26e3c991560 <col:7> col:7 'const DeriveB &'
+`-CXXConstructorDecl 0x26e3c991640 <col:7> col:7 implicit constexpr DeriveB 'void (DeriveB &&)' inline default trivial noexcept-unevaluated 0x26e3c991640
+  `-ParmVarDecl 0x26e3c991770 <col:7> col:7 'DeriveB &&'
+
+Layout: <CGRecordLayout
+  LLVMType:%class.DeriveB = type { %class.Base, i32 }
+  NonVirtualBaseLLVMType:%class.DeriveB = type { %class.Base, i32 }
+  IsZeroInitializable:1
+  BitFields:[
+]>
+
+*** Dumping IRgen Record Layout
+Record: CXXRecordDecl 0x26e3c989738 <SandBox.cpp:14:1, line:16:1> line:14:7 referenced class DeriveC definition
+|-DefinitionData pass_in_registers trivially_copyable trivial literal
+| |-DefaultConstructor exists trivial
+| |-CopyConstructor simple trivial has_const_param implicit_has_const_param
+| |-MoveConstructor exists simple trivial
+| |-CopyAssignment simple trivial has_const_param needs_implicit implicit_has_const_param
+| |-MoveAssignment exists simple trivial needs_implicit
+| `-Destructor simple irrelevant trivial needs_implicit
+|-public 'DeriveA'
+|-public 'DeriveB'
+|-CXXRecordDecl 0x26e3c989938 <col:1, col:7> col:7 implicit class DeriveC
+|-FieldDecl 0x26e3c9899e0 <line:15:5, col:9> col:9 w 'int'
+|-CXXConstructorDecl 0x26e3c989cc0 <line:14:7> col:7 implicit used DeriveC 'void () noexcept' inline default trivial
+| |-CXXCtorInitializer 'DeriveA'
+| | `-CXXConstructExpr 0x26e3c98dbf8 <col:7> 'DeriveA' 'void () noexcept'
+| |-CXXCtorInitializer 'DeriveB'
+| | `-CXXConstructExpr 0x26e3c98de28 <col:7> 'DeriveB' 'void () noexcept'
+| `-CompoundStmt 0x26e3c98de98 <col:7>
+|-CXXConstructorDecl 0x26e3c9917f0 <col:7> col:7 implicit constexpr DeriveC 'void (const DeriveC &)' inline default trivial noexcept-unevaluated 0x26e3c9917f0
+| `-ParmVarDecl 0x26e3c98d600 <col:7> col:7 'const DeriveC &'
+`-CXXConstructorDecl 0x26e3c98d6e0 <col:7> col:7 implicit constexpr DeriveC 'void (DeriveC &&)' inline default trivial noexcept-unevaluated 0x26e3c98d6e0
+  `-ParmVarDecl 0x26e3c98d810 <col:7> col:7 'DeriveC &&'
+
+Layout: <CGRecordLayout
+  LLVMType:%class.DeriveC = type { %class.DeriveA, %class.DeriveB, i32 }
+  NonVirtualBaseLLVMType:%class.DeriveC = type { %class.DeriveA, %class.DeriveB, i32 }
+  IsZeroInitializable:1
+  BitFields:[
+]>

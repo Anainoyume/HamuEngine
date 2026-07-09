@@ -1,0 +1,195 @@
+#include "Core.h"
+
+#include "glad/glad.h"
+#include "GLFW/glfw3.h"
+
+// GLM 数学库
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+
+// 防止 ODR 违规, 只需在一个 .cpp 文件生成实现即可, 其他只需要引入头文件声明
+#define STB_IMAGE_IMPLEMENTATION
+#include "stb_image.h"
+
+#include <iostream>
+#include <vector>
+#include <cmath>
+
+void framebuffer_size_callback(GLFWwindow* window, int width, int height) {
+    glViewport(0, 0, width, height);
+}
+
+void processInput(GLFWwindow* window) {
+    if (glfwGetKey(window, GLFW_KEY_ESCAPE) == GLFW_PRESS) {
+        glfwSetWindowShouldClose(window, true);
+    }
+}
+
+int main() {
+
+    glfwInit();
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
+    glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+    glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+    // glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
+
+    GLFWwindow* window = glfwCreateWindow(800, 600, "LearnOpenGL", NULL, NULL);
+    if (window == NULL) {
+        std::cerr << "Failed to create GLFW window" << '\n';
+        glfwTerminate();
+        return -1;
+    }
+    glfwMakeContextCurrent(window);
+
+    // 加载 opengl 函数 - 必须在持有上下文后才能正确加载
+    if (!gladLoadGLLoader((GLADloadproc)glfwGetProcAddress)) {
+        std::cout << "Failed to initialize GLAD" << std::endl;
+        return -1;
+    }
+
+    glViewport(0, 0, 800, 600);
+
+    // 注册回调
+    glfwSetFramebufferSizeCallback(window, framebuffer_size_callback);
+
+
+
+    // ------------------------------- After Init ----------------------------------
+
+    int nrAttributes;
+    glGetIntegerv(GL_MAX_VERTEX_ATTRIBS, &nrAttributes);
+    // 输出 16
+    std::cout << "Maximum nr of vertex attributes supported: " << nrAttributes << std::endl;
+
+    // -----------------------------------------------------------------------------
+
+
+    // 加载纹理
+    hamu::Texture tex1("resource/textures/wooden_box.png", true, {.warp_s = GL_REPEAT, .warp_t = GL_REPEAT});
+
+    hamu::Texture tex2(
+        "resource/textures/slime.png",
+        true,
+        {
+            .warp_s = GL_REPEAT,
+            .warp_t = GL_REPEAT,
+
+            .internal_format = GL_RGB,
+            .format          = GL_RGBA,
+        }
+    );
+
+
+    // 注意激活纹理的绑定一定要放在后面, 因为构造函数里会生成纹理并绑定, 所以后绑定的会覆盖前面的
+    tex1.Bind();
+    tex2.Bind(1);
+
+
+    // clang-format off
+    // (0,1) (1,1) 
+    // (0,0) (1,0)
+
+    std::vector<float> vertices = {
+    //   posx   posy   posz   colr   colg   colb    u      v
+         0.5f,  0.5f,  0.0f,  1.0f,  0.0f,  0.0f,  2.0f,  2.0f, // 右上角
+         0.5f, -0.5f,  0.0f,  0.0f,  1.0f,  0.0f,  2.0f,  0.0f, // 右下角
+        -0.5f, -0.5f,  0.0f,  0.0f,  0.0f,  1.0f,  0.0f,  0.0f, // 左下角
+        -0.5f,  0.5f,  0.0f,  0.0f,  0.0f,  0.0f,  0.0f,  2.0f, // 左上角
+    };
+    
+
+    // 注意索引从0开始!
+    // 此例的索引(0,1,2,3)就是顶点数组vertices的下标，
+    // 这样可以由下标代表顶点组合成矩形
+    unsigned int indices[] = {
+        0,  1,  3,  // 第一个三角形
+        1,  2,  3   // 第二个三角形
+    };
+    // clang-format on
+
+
+    hamu::Shader shader("resource/shaders/demo01.vert", "resource/shaders/demo01.frag");
+
+
+    hamu::VertexBuffer vbo(vertices);
+    hamu::IndexBuffer ebo(indices, sizeof(indices));
+
+    hamu::VertexLayout layout;
+    layout.PushFloat(3); // pos
+    layout.PushFloat(3); // color
+    layout.PushFloat(2); // texcoord
+
+    for (const auto& attr : layout.GetAttributes()) {
+        std::cout << attr << '\n';
+    }
+
+
+    hamu::VertexArray vao;
+    vao.AddVertexLayout(vbo, layout);
+    vao.SetIndexBuffer(ebo);
+
+
+    // 线框模式
+    // glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
+
+
+    // 目前只有一个着色器, 可以循环之前就直接使用
+    shader.Use();
+    shader.SetInt("texture1", 0);
+    shader.SetInt("texture2", 1);
+
+
+
+    // ----------------------------------- 变换 --------------------------------------
+
+    // 0.9.9 及以上版本的 glm 默认构造是零矩阵
+    glm::mat4 trans = glm::mat4(1.0f); // 手动设置单位矩阵
+
+    // rotate ( 矩阵, 角度 (radians转化为弧度), 旋转轴 )
+    trans = glm::rotate(trans, glm::radians(90.0f), glm::vec3(0.0, 0.0, 1.0));
+
+    // scale 按照轴缩放
+    trans = glm::scale(trans, glm::vec3(0.5, 0.5, 0.5));
+
+    // 传入变换矩阵
+    shader.SetMatrix4fv("transform", glm::value_ptr(trans));
+
+    // ------------------------------------------------------------------------------
+
+
+
+    // Game Loop
+    while (!glfwWindowShouldClose(window)) {
+
+        // 处理输入
+        processInput(window);
+
+
+        // Renderer
+        glClearColor(0.2f, 0.3f, 0.3f, 1.0f);
+        glClear(GL_COLOR_BUFFER_BIT);
+
+        // 使用着色器程序 & 向它传入 Uniform 数据, Uniform
+        // 数据是生命边界是一个着色器程序
+        // auto location = glGetUniformLocation(shaderProgram, "ourColor");
+        // float timeValue = glfwGetTime();
+        // float redValue = (sin(timeValue) / 2.0f) + 0.5f;
+        // glUniform4f(location, 0.0f, greenValue, 0.0f, 1.0f);
+        // shader.use();
+        // shader.setFloat("redColor", redValue);
+
+
+        glBindVertexArray(vao.Id());
+        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0);
+        glBindVertexArray(0);
+
+
+        glfwSwapBuffers(window);
+        glfwPollEvents();
+    }
+
+    glfwTerminate();
+
+    return 0;
+}

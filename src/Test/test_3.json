@@ -1,0 +1,24 @@
+{
+    "number": 14242,
+    "is_ok": true,
+    "test": [
+        {
+            "age": 13,
+            "name": "Alice"
+        },
+        {
+            "age": 17,
+            "name": "Bob"
+        }
+    ],
+    "hello": null,
+    "world": "world!!!",
+    "index": [
+        1,
+        1,
+        4,
+        5,
+        1,
+        4
+    ]
+}

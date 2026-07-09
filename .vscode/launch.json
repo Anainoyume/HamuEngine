@@ -1,0 +1,29 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Launch with LLDB",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}", // 可改成你的程序路径
+            "args": [],
+            "cwd": "${workspaceFolder}",    // 程序工作目录
+            "stopOnEntry": false,
+            // "console": "externalTerminal",
+            // "terminal": "external",
+        },
+
+        {
+            "name": "Build & Run with LLDB",
+            "type": "lldb",
+            "request": "launch",
+            "program": "${command:cmake.launchTargetPath}",   // 可改成你的程序路径
+            "args": [],
+            "cwd": "${workspaceFolder}",
+            "stopOnEntry": false,
+            "preLaunchTask": "CMake Build",
+            // "console": "externalTerminal",
+            // "terminal": "external",
+        }
+    ]
+}

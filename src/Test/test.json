@@ -1,0 +1,115 @@
+{
+    "meta_info": {
+        "generated_at": "2023-10-27T10:00:00.000Z",
+        "version": 2.5,
+        "debug_mode": false,
+        "description": "This is a torture test for JSON parsers."
+    },
+    "string_test_cases": {
+        "basic": "Hello World",
+        "escapes": "Line 1\nLine 2\r\tBackslash: \\ \"Quote\"",
+        "unicode_BMP": "中文测试 \u00A9 \u00AE",
+        "unicode_emoji": "\uD83D\uDE80 🔥 🙃 (Surrogates)",
+        "empty": "",
+        "special_chars": "!@#$%^&*()_+-=[]{}|;':,./<>?"
+    },
+    "number_test_cases": {
+        "integer": 42,
+        "negative_int": -1024,
+        "zero": 0,
+        "float": 3.1415926535,
+        "negative_float": -0.005,
+        "scientific_pos": 1.23e4,
+        "scientific_neg": 5.67E-8,
+        "scientific_zero_exp": 1e0,
+        "boundary_min": -1.7976931348623157e+308,
+        "boundary_max": 1.7976931348623157e+308
+    },
+    "structural_tests": {
+        "empty_object": {},
+        "empty_array": [],
+        "null_value": null,
+        "true_value": true,
+        "false_value": false,
+        "nested_arrays": [
+            [
+                1,
+                2
+            ],
+            [
+                3,
+                [
+                    4,
+                    5,
+                    [
+                        6,
+                        7
+                    ]
+                ]
+            ]
+        ],
+        "mixed_array": [
+            1,
+            "two",
+            null,
+            false,
+            {
+                "inner": "obj"
+            },
+            [
+                1.5,
+                2.5e2
+            ]
+        ]
+    },
+    "edge_case_keys": {
+        "": "Empty key value",
+        "key with spaces": true,
+        "key.with.dots": 123,
+        "\"quoted_key\"": "Look at the key",
+        "long_key_aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa": "value"
+    },
+    "deeply_nested_object": {
+        "level_1": {
+            "level_2": {
+                "level_3": {
+                    "level_4": {
+                        "level_5": {
+                            "target": "You found me!",
+                            "sibling_array": [
+                                {
+                                    "id": 1
+                                },
+                                {
+                                    "id": 2
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "large_data_block": [
+        {
+            "id": 1,
+            "active": true,
+            "tags": [
+                "admin",
+                "user"
+            ]
+        },
+        {
+            "id": 2,
+            "active": false,
+            "tags": []
+        },
+        {
+            "id": 3,
+            "active": true,
+            "tags": [
+                "guest"
+            ]
+        }
+    ]
+}
