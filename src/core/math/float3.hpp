@@ -13,6 +13,7 @@ namespace hamu
         constexpr explicit Float3(float k) : Float3(k, k, k) {}
         constexpr Float3() : Float3(0) {}
 
+        constexpr float* data() { return &x; }
         constexpr const float* data() const { return &x; }
     };
 

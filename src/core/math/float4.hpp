@@ -2,6 +2,7 @@
 
 #include <cmath>
 #include <immintrin.h>
+#include <xmmintrin.h>
 
 namespace hamu
 {
@@ -14,6 +15,7 @@ namespace hamu
         constexpr explicit Float4(float k) : Float4(k, k, k, k) {}
         constexpr Float4() : Float4(0) {}
 
+        constexpr float* data() { return &x; }
         constexpr const float* data() const { return &x; }
     };
 
@@ -78,7 +80,19 @@ namespace hamu
     }
 
     inline constexpr Float4 normalize(const Float4& v) {
+#if defined(__SSE2__)
+        auto d = dot(v, v);
+        __m128 va = _mm_load_ps(v.data());
+        __m128 vb = _mm_set_ps1(d);
+        vb = _mm_rsqrt_ps(vb);
+        va = _mm_mul_ps(va, vb);
+
+        Float4 out;
+        _mm_store_ps(out.data(), va);
+        return out;
+#else
         return v / length(v);
+#endif
     }
 
     inline constexpr Float4 normalize_safe(const Float4& v) {
