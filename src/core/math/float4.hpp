@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <immintrin.h>
 
 namespace hamu
 {
@@ -53,7 +54,19 @@ namespace hamu
     }
 
     inline constexpr float dot(const Float4& a, const Float4& b) {
+#if defined(__SSE2__)
+        __m128 va = _mm_loadu_ps(a.data());
+        __m128 vb = _mm_loadu_ps(b.data());
+
+        __m128 mul = _mm_mul_ps(va, vb);                                // [m0 m1 m2 m3]
+        __m128 hi  = _mm_movehl_ps(mul, mul);                           // [m2 m3 m2 m3] 把高两位挪到低两位
+        __m128 sum = _mm_add_ps(mul, hi);                               // [m0+m2, m1+m3, ...]
+        hi         = _mm_shuffle_ps(sum, sum, _MM_SHUFFLE(0, 0, 0, 1)); // [m1+m3, m0+m2, m0+m2, m0+m2]
+        sum        = _mm_add_ss(sum, hi);                               // [dot, ...]
+        return _mm_cvtss_f32(sum);
+#else
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+#endif
     }
 
     inline constexpr float length(const Float4& v) {
