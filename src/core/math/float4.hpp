@@ -1,141 +1,134 @@
 #pragma once
 
 #include <cmath>
-#include <immintrin.h>
-#include <xmmintrin.h>
+#include "simd/float4_register.hpp"
 
 namespace hamu
 {
-    struct alignas(16) Float4
+    struct alignas(16) float4
     {
         float x, y, z, w;
 
-        constexpr Float4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
-        constexpr explicit Float4(float k) : Float4(k, k, k, k) {}
-        constexpr Float4() : Float4(0) {}
+        constexpr float4(float x, float y, float z, float w) : x(x), y(y), z(z), w(w) {}
+        constexpr explicit float4(float k) : float4(k, k, k, k) {}
+        constexpr float4() : float4(0) {}
 
         constexpr float* data() { return &x; }
         constexpr const float* data() const { return &x; }
     };
 
-    inline constexpr Float4 operator+(const Float4& a, const Float4& b) {
-        return Float4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
-    }
-
-    inline constexpr Float4 operator-(const Float4& a, const Float4& b) {
-        return Float4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
-    }
-
-    inline constexpr Float4 operator*(const Float4& a, const Float4& b) {
-        return Float4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
-    }
-
-    inline constexpr Float4 operator/(const Float4& a, const Float4& b) {
-        return Float4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
-    }
-
-    inline constexpr Float4 operator*(const Float4& v, float s) {
-        return Float4(v.x * s, v.y * s, v.z * s, v.w * s);
-    }
-
-    inline constexpr Float4 operator*(float s, const Float4& v) {
-        return Float4(v.x * s, v.y * s, v.z * s, v.w * s);
-    }
-
-    inline constexpr Float4 operator/(float s, const Float4& v) {
-        return Float4(s / v.x, s / v.y, s / v.z, s / v.w);
-    }
-
-    inline constexpr Float4 operator/(const Float4& v, float s) {
-        return Float4(v.x / s, v.y / s, v.z / s, v.w / s);
-    }
-
-    inline constexpr Float4 operator-(const Float4& v) {
-        return Float4(-v.x, -v.y, -v.z, -v.w);
-    }
-
-    inline constexpr float dot(const Float4& a, const Float4& b) {
 #if defined(__SSE2__)
-        __m128 va = _mm_loadu_ps(a.data());
-        __m128 vb = _mm_loadu_ps(b.data());
 
-        __m128 mul = _mm_mul_ps(va, vb);                                // [m0 m1 m2 m3]
-        __m128 hi  = _mm_movehl_ps(mul, mul);                           // [m2 m3 m2 m3] 把高两位挪到低两位
-        __m128 sum = _mm_add_ps(mul, hi);                               // [m0+m2, m1+m3, ...]
-        hi         = _mm_shuffle_ps(sum, sum, _MM_SHUFFLE(0, 0, 0, 1)); // [m1+m3, m0+m2, m0+m2, m0+m2]
-        sum        = _mm_add_ss(sum, hi);                               // [dot, ...]
-        return _mm_cvtss_f32(sum);
+    inline float4 cvtfloat4_f4reg(const f4reg& reg) {
+        float4 out;
+        reg.store(out.data());
+        return out;
+    }
+
+#endif
+
+    inline constexpr float4 operator+(const float4& a, const float4& b) {
+        return float4(a.x + b.x, a.y + b.y, a.z + b.z, a.w + b.w);
+    }
+
+    inline constexpr float4 operator-(const float4& a, const float4& b) {
+        return float4(a.x - b.x, a.y - b.y, a.z - b.z, a.w - b.w);
+    }
+
+    inline constexpr float4 operator*(const float4& a, const float4& b) {
+        return float4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
+    }
+
+    inline constexpr float4 operator/(const float4& a, const float4& b) {
+        return float4(a.x / b.x, a.y / b.y, a.z / b.z, a.w / b.w);
+    }
+
+    inline constexpr float4 operator*(const float4& v, float s) {
+        return float4(v.x * s, v.y * s, v.z * s, v.w * s);
+    }
+
+    inline constexpr float4 operator*(float s, const float4& v) {
+        return float4(v.x * s, v.y * s, v.z * s, v.w * s);
+    }
+
+    inline constexpr float4 operator/(float s, const float4& v) {
+        return float4(s / v.x, s / v.y, s / v.z, s / v.w);
+    }
+
+    inline constexpr float4 operator/(const float4& v, float s) {
+        return float4(v.x / s, v.y / s, v.z / s, v.w / s);
+    }
+
+    inline constexpr float4 operator-(const float4& v) {
+        return float4(-v.x, -v.y, -v.z, -v.w);
+    }
+
+    inline constexpr float dot(const float4& a, const float4& b) {
+#if defined(__SSE2__)
+        auto va = f4reg::load_aligned(a.data());
+        auto vb = f4reg::load_aligned(b.data());
+
+        auto mul  = va * vb;                              // [m0 m1 m2 m3]
+        auto high = f4reg::merge_high(mul, mul);          // [m2 m3 m2 m3] 把高两位挪到低两位
+        auto sum  = mul + high;                           // [m0+m2, m1+m3, ...]
+        high      = f4reg::shuffle<0b00000001>(sum, sum); // [m1+m3, m0+m2, m0+m2, m0+m2]
+        sum       = sum + high;                           // [dot, ...]
+        return f4reg::get_float0(sum);
 #else
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 #endif
     }
 
-    inline constexpr float length(const Float4& v) {
+    inline constexpr float length(const float4& v) {
         return std::sqrt(dot(v, v));
     }
 
-    inline constexpr float distance(const Float4& a, const Float4& b) {
+    inline constexpr float distance(const float4& a, const float4& b) {
         return length(b - a);
     }
 
-    inline constexpr Float4 normalize(const Float4& v) {
+    inline constexpr float4 normalize(const float4& v) {
 #if defined(__SSE2__)
-        auto d    = dot(v, v);
-        __m128 va = _mm_load_ps(v.data());
-        __m128 x  = _mm_set_ps1(d);
+        auto d  = dot(v, v);
+        auto va = f4reg::load_aligned(v.data());
+        auto x  = f4reg::load_constant(d);
 
-        const __m128 half  = _mm_set1_ps(0.5f);
-        const __m128 three = _mm_set1_ps(1.5f);
-        __m128 inv         = _mm_rsqrt_ps(x);
-        __m128 inv2        = _mm_mul_ps(inv, inv);           // x²
-        __m128 hx          = _mm_mul_ps(half, x);            // 0.5a
-        inv2               = _mm_fnmadd_ps(hx, inv2, three); // 1.5 - 0.5ax²
-        inv                = _mm_mul_ps(inv, inv2);          // 1.5x -0.5ax³
-
-        va = _mm_mul_ps(va, inv);
-
-        Float4 out;
-        _mm_store_ps(out.data(), va);
-        return out;
+        auto inv  = f4reg::rsqrt(x);
+        auto inv2 = inv * inv;
+        inv       = inv * f4reg::fast_negmul_add(0.5f * x, inv2, 1.5f);
+        va        = va * inv;
+        return cvtfloat4_f4reg(va);
 #else
         return v / length(v);
 #endif
     }
 
-    inline constexpr Float4 normalize_safe(const Float4& v) {
+    inline constexpr float4 normalize_safe(const float4& v) {
         float len = length(v);
         if (len <= 1e-6) {
-            return Float4(0.0f);
+            return float4(0.0f);
         }
         return v / len;
     }
 
-    inline constexpr Float4 lerp(const Float4& a, const Float4& b, float t) {
+    inline constexpr float4 lerp(const float4& a, const float4& b, float t) {
 #if defined(__SSE2__)
-        __m128 vt     = _mm_set1_ps(t);
-        __m128 va     = _mm_load_ps(a.data());
-        __m128 vb     = _mm_load_ps(b.data());
-        __m128 result = _mm_fmadd_ps(_mm_sub_ps(vb, va), vt, va);
-
-        Float4 out;
-        _mm_store_ps(out.data(), result);
-        return out;
+        auto va     = f4reg::load_aligned(a.data());
+        auto vb     = f4reg::load_aligned(b.data());
+        auto result = f4reg::fast_mul_add(vb - va, t, va);
+        return cvtfloat4_f4reg(result);
 #else
         return a + (b - a) * t;
 #endif
     }
 
-    inline constexpr Float4 abs(const Float4& v) {
+    inline constexpr float4 abs(const float4& v) {
 #if defined(__SSE2__)
-        __m128 va          = _mm_load_ps(v.data());
-        const __m128i mask = _mm_set1_epi32(0x7fffffff);
-        __m128 result      = _mm_castsi128_ps(_mm_and_si128(_mm_castps_si128(va), mask));
-
-        Float4 out;
-        _mm_store_ps(out.data(), result);
-        return out;
+        auto va     = f4reg::load_aligned(v.data());
+        auto result = va & 0x7fffffff;
+        return cvtfloat4_f4reg(result);
 #else
-        return Float4(std::fabs(v.x), std::fabs(v.y), std::fabs(v.z), std::fabs(v.w));
+        return float4(std::fabs(v.x), std::fabs(v.y), std::fabs(v.z), std::fabs(v.w));
 #endif
     }
 
