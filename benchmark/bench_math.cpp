@@ -13,7 +13,7 @@ template <typename Vec>
 std::vector<Vec> generate_vecs(size_t n) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> dis(1.0f, 1000.0f); // 避开0，防止除零
+    std::uniform_real_distribution<float> dis(1.0f, 1000.0f);
     std::vector<Vec> vecs;
     vecs.reserve(n);
     for (size_t i = 0; i < n; ++i) {
@@ -34,289 +34,314 @@ std::vector<float> generate_scalars(size_t n) {
     return scalars;
 }
 
+// 每轮迭代批量处理 BATCH_SIZE 个元素，摊平框架开销
+constexpr size_t BATCH_SIZE = 4096;
+
 // ---------- 针对 hamu::float4 的基准测试 ----------
 static void BM_Hamu_Add(benchmark::State& state) {
-    const size_t N       = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
-    static const auto vb = generate_vecs<hamu::float4>(N);
-    size_t idx           = 0;
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] + vb[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] + vb[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_Add);
 
 static void BM_Hamu_Sub(benchmark::State& state) {
-    const size_t N       = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
-    static const auto vb = generate_vecs<hamu::float4>(N);
-    size_t idx           = 0;
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] - vb[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] - vb[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_Sub);
 
 static void BM_Hamu_MulVecVec(benchmark::State& state) {
-    const size_t N       = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
-    static const auto vb = generate_vecs<hamu::float4>(N);
-    size_t idx           = 0;
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] * vb[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] * vb[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_MulVecVec);
 
 static void BM_Hamu_DivVecVec(benchmark::State& state) {
-    const size_t N       = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
-    static const auto vb = generate_vecs<hamu::float4>(N);
-    size_t idx           = 0;
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] / vb[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] / vb[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_DivVecVec);
 
 static void BM_Hamu_MulScalar(benchmark::State& state) {
-    const size_t N            = 1024 << 2;
-    static const auto va      = generate_vecs<hamu::float4>(N);
-    static const auto scalars = generate_scalars(N);
-    size_t idx                = 0;
+    static const auto va      = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto scalars = generate_scalars(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] * scalars[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] * scalars[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_MulScalar);
 
 static void BM_Hamu_DivScalar(benchmark::State& state) {
-    const size_t N            = 1024 << 2;
-    static const auto va      = generate_vecs<hamu::float4>(N);
-    static const auto scalars = generate_scalars(N);
-    size_t idx                = 0;
+    static const auto va      = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto scalars = generate_scalars(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] / scalars[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] / scalars[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_DivScalar);
 
 // ---------- 针对 glm::vec4 的基准测试 ----------
 static void BM_GLM_Add(benchmark::State& state) {
-    const size_t N       = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    static const auto vb = generate_vecs<glm::vec4>(N);
-    size_t idx           = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<glm::vec4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] + vb[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] + vb[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_Add);
 
 static void BM_GLM_Sub(benchmark::State& state) {
-    const size_t N       = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    static const auto vb = generate_vecs<glm::vec4>(N);
-    size_t idx           = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<glm::vec4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] - vb[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] - vb[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_Sub);
 
 static void BM_GLM_MulVecVec(benchmark::State& state) {
-    const size_t N       = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    static const auto vb = generate_vecs<glm::vec4>(N);
-    size_t idx           = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<glm::vec4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] * vb[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] * vb[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_MulVecVec);
 
 static void BM_GLM_DivVecVec(benchmark::State& state) {
-    const size_t N       = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    static const auto vb = generate_vecs<glm::vec4>(N);
-    size_t idx           = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<glm::vec4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] / vb[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] / vb[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_DivVecVec);
 
 static void BM_GLM_MulScalar(benchmark::State& state) {
-    const size_t N            = 1024 << 2;
-    static const auto va      = generate_vecs<glm::vec4>(N);
-    static const auto scalars = generate_scalars(N);
-    size_t idx                = 0;
+    static const auto va      = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto scalars = generate_scalars(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] * scalars[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] * scalars[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_MulScalar);
 
 static void BM_GLM_DivScalar(benchmark::State& state) {
-    const size_t N            = 1024 << 2;
-    static const auto va      = generate_vecs<glm::vec4>(N);
-    static const auto scalars = generate_scalars(N);
-    size_t idx                = 0;
+    static const auto va      = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto scalars = generate_scalars(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = va[idx] / scalars[idx];
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = va[i] / scalars[i];
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_DivScalar);
 
 // ---------- 针对 hamu::float4 的复杂运算 ----------
 static void BM_Hamu_Dot(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
-    static const auto vb = generate_vecs<hamu::float4>(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(BATCH_SIZE);
     for (auto _ : state) {
-        float result = hamu::dot(va[idx], vb[idx]);
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        float sink = 0;
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = hamu::dot(va[i], vb[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_Dot);
 
 static void BM_Hamu_Length(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
     for (auto _ : state) {
-        float result = hamu::length(va[idx]);
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        float sink = 0;
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = hamu::length(va[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_Length);
 
 static void BM_Hamu_Normalize(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = hamu::normalize(va[idx]); // 或 normalize_safe
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = hamu::normalize(va[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_Normalize);
 
 static void BM_Hamu_Lerp(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
-    static const auto vb = generate_vecs<hamu::float4>(N);
-    static const auto ts = generate_scalars(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(BATCH_SIZE);
+    static const auto ts = generate_scalars(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = hamu::lerp(va[idx], vb[idx], ts[idx]);
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = hamu::lerp(va[i], vb[i], ts[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_Lerp);
 
 // ---------- 针对 glm::vec4 的复杂运算 ----------
 static void BM_GLM_Dot(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    static const auto vb = generate_vecs<glm::vec4>(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<glm::vec4>(BATCH_SIZE);
     for (auto _ : state) {
-        float result = glm::dot(va[idx], vb[idx]);
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        float sink = 0;
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = glm::dot(va[i], vb[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_Dot);
 
 static void BM_GLM_Length(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
     for (auto _ : state) {
-        float result = glm::length(va[idx]);
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        float sink = 0;
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = glm::length(va[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_Length);
 
 static void BM_GLM_Normalize(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = glm::normalize(va[idx]);
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = glm::normalize(va[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_Normalize);
 
 static void BM_GLM_Lerp(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    static const auto vb = generate_vecs<glm::vec4>(N);
-    static const auto ts = generate_scalars(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto vb = generate_vecs<glm::vec4>(BATCH_SIZE);
+    static const auto ts = generate_scalars(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = glm::mix(va[idx], vb[idx], ts[idx]); // GLM 的 lerp 叫 mix
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = glm::mix(va[i], vb[i], ts[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_Lerp);
 
 static void BM_Hamu_Abs(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<hamu::float4>(N);
+    static const auto va = generate_vecs<hamu::float4>(BATCH_SIZE);
     for (auto _ : state) {
-        size_t idx = 0;
-        auto result = hamu::abs(va[idx]);
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        hamu::float4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = hamu::abs(va[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_Hamu_Abs);
 
 static void BM_GLM_Abs(benchmark::State& state) {
-    const size_t N = 1024 << 2;
-    static const auto va = generate_vecs<glm::vec4>(N);
-    size_t idx = 0;
+    static const auto va = generate_vecs<glm::vec4>(BATCH_SIZE);
     for (auto _ : state) {
-        auto result = glm::abs(va[idx]);
-        benchmark::DoNotOptimize(result);
-        idx = (idx + 1) & (N - 1);
+        glm::vec4 sink{0};
+        for (size_t i = 0; i < BATCH_SIZE; ++i) {
+            sink = glm::abs(va[i]);
+            benchmark::DoNotOptimize(sink);
+        }
     }
+    state.SetItemsProcessed(BATCH_SIZE * state.iterations());
 }
 BENCHMARK(BM_GLM_Abs);
 

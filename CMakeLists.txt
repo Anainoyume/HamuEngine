@@ -5,22 +5,22 @@ project(HamuEngineProject)
 set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
-# ¿ÉÖ´ĞĞÎÄ¼şÊä³öÄ¿Â¼
+# å¯æ‰§è¡Œæ–‡ä»¶è¾“å‡ºç›®å½•
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# ¶¯Ì¬¿âÊä³öÄ¿Â¼ (.dll / .so)
+# åŠ¨æ€åº“è¾“å‡ºç›®å½• (.dll / .so)
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/bin)
 
-# ¾²Ì¬¿âÊä³öÄ¿Â¼ (.lib / .a)
+# é™æ€åº“è¾“å‡ºç›®å½• (.lib / .a)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}/lib)
 
-# µ¼ÈëÔ¶³ÌÁ¬½Ó¿âµÄÄ£¿é
+# å¯¼å…¥è¿œç¨‹è¿æ¥åº“çš„æ¨¡å—
 include(FetchContent)
 
-# µ¼ÈëµÚÈı·½¿â×Ó¹¹½¨Ä¿Â¼
+# å¯¼å…¥ç¬¬ä¸‰æ–¹åº“å­æ„å»ºç›®å½•
 add_subdirectory(third_party)
 
-# ³£ÓÃµÄ¿â
+# å¸¸ç”¨çš„åº“
 set(COMMON_LIB_NAME
     winpthread
     opengl32
@@ -53,7 +53,7 @@ set(ENGINE_SRC
 )
 
 add_library(HamuEngine STATIC ${ENGINE_SRC})
-# ¹«¿ªÒ»ÏÂÍ·ÎÄ¼şÂ·¾¶
+# å…¬å¼€ä¸€ä¸‹å¤´æ–‡ä»¶è·¯å¾„
 target_include_directories(HamuEngine PUBLIC 
     "src"
 )
@@ -96,7 +96,7 @@ target_link_libraries(SandBox PRIVATE
     stb_image
 )
 target_compile_definitions(SandBox PRIVATE
-    HAMU_ENGINE_BUILD_STATIC # ÁÙÊ±¸Ä³É¾²Ì¬Á´½Ó¿â
+    HAMU_ENGINE_BUILD_STATIC # ä¸´æ—¶æ”¹æˆé™æ€é“¾æ¥åº“
 )
 
 
@@ -122,19 +122,19 @@ target_compile_options(SandBoxTest PRIVATE
 
 
 # ---------------------------------- BenchMark -----------------------------------
-# benchmark ¿âÎÒÃÇÖ±½ÓÔ¶³ÌÒıÈë
-# ÉùÃ÷Òª»ñÈ¡µÄ Google Benchmark ¿â
+# benchmark åº“æˆ‘ä»¬ç›´æ¥è¿œç¨‹å¼•å…¥
+# å£°æ˜è¦è·å–çš„ Google Benchmark åº“
 FetchContent_Declare(
     benchmark
     GIT_REPOSITORY https://github.com/google/benchmark.git
-    GIT_TAG        main    # ÍÆ¼öÊ¹ÓÃÎÈ¶¨µÄ·¢²¼°æ±¾
-    GIT_SHALLOW    TRUE    # Ö»¿ËÂ¡×îĞÂÌá½»£¬¼Ó¿ìÏÂÔØËÙ¶È
+    GIT_TAG        main    # æ¨èä½¿ç”¨ç¨³å®šçš„å‘å¸ƒç‰ˆæœ¬
+    GIT_SHALLOW    TRUE    # åªå…‹éš†æœ€æ–°æäº¤ï¼ŒåŠ å¿«ä¸‹è½½é€Ÿåº¦
 )
 
-# ÔÚ»ñÈ¡Ç°£¬¹Ø±Õ Benchmark ×ÔÉíµÄ²âÊÔ£¬±ÜÃâËüÃÇ±»¹¹½¨
+# åœ¨è·å–å‰ï¼Œå…³é—­ Benchmark è‡ªèº«çš„æµ‹è¯•ï¼Œé¿å…å®ƒä»¬è¢«æ„å»º
 set(BENCHMARK_ENABLE_TESTING OFF)
 
-# Ê¹ÄÚÈİ¿ÉÓÃ£¬CMake »á×Ô¶¯ÏÂÔØ²¢±àÒë
+# ä½¿å†…å®¹å¯ç”¨ï¼ŒCMake ä¼šè‡ªåŠ¨ä¸‹è½½å¹¶ç¼–è¯‘
 FetchContent_MakeAvailable(benchmark)
 
 add_executable(Bench_Math "benchmark/bench_math.cpp")
@@ -148,8 +148,26 @@ target_include_directories(Bench_Math PRIVATE
     src/core/math
 )
 
-# ÓÅ»¯À­Âú, ÉèÖÃ¸ñÊ½»¯Êä³ö
+# ä¼˜åŒ–æ‹‰æ»¡, è®¾ç½®æ ¼å¼åŒ–è¾“å‡º
 target_compile_options(Bench_Math PRIVATE
+    -O3
+    -march=native
+)
+
+
+
+add_executable(Bench_Math_Batch "benchmark/bench_math_batch.cpp")
+
+target_link_libraries(Bench_Math_Batch PRIVATE 
+    benchmark::benchmark
+    glm
+)
+
+target_include_directories(Bench_Math_Batch PRIVATE
+    src/core/math
+)
+
+target_compile_options(Bench_Math_Batch PRIVATE
     -O3
     -march=native
 )

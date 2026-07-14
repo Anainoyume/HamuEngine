@@ -1,6 +1,7 @@
 #pragma once
 
 #include <cmath>
+#include <immintrin.h>
 #include "simd/float4_register.hpp"
 
 namespace hamu
@@ -68,11 +69,10 @@ namespace hamu
         auto va = f4reg::load_aligned(a.data());
         auto vb = f4reg::load_aligned(b.data());
 
-        auto mul  = va * vb;                              // [m0 m1 m2 m3]
-        auto high = f4reg::merge_high(mul, mul);          // [m2 m3 m2 m3] 把高两位挪到低两位
-        auto sum  = mul + high;                           // [m0+m2, m1+m3, ...]
-        high      = f4reg::shuffle<0b00000001>(sum, sum); // [m1+m3, m0+m2, m0+m2, m0+m2]
-        sum       = sum + high;                           // [dot, ...]
+        auto sum = va * vb;
+        sum += f4reg::merge_high(sum, sum);
+        sum += f4reg::shuffle<1, 0, 0, 0>(sum, sum);
+
         return f4reg::get_float0(sum);
 #else
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
@@ -113,10 +113,14 @@ namespace hamu
 
     inline constexpr float4 lerp(const float4& a, const float4& b, float t) {
 #if defined(__SSE2__)
-        auto va     = f4reg::load_aligned(a.data());
-        auto vb     = f4reg::load_aligned(b.data());
-        auto result = f4reg::fast_mul_add(vb - va, t, va);
-        return cvtfloat4_f4reg(result);
+        __m128 vt     = _mm_set1_ps(t);
+        __m128 va     = _mm_load_ps(a.data());
+        __m128 vb     = _mm_load_ps(b.data());
+        __m128 result = _mm_fmadd_ps(_mm_sub_ps(vb, va), vt, va);
+
+        float4 out;
+        _mm_store_ps(out.data(), result);
+        return out;
 #else
         return a + (b - a) * t;
 #endif
@@ -124,9 +128,14 @@ namespace hamu
 
     inline constexpr float4 abs(const float4& v) {
 #if defined(__SSE2__)
-        auto va     = f4reg::load_aligned(v.data());
-        auto result = va & 0x7fffffff;
-        return cvtfloat4_f4reg(result);
+        static const __m128i mask = _mm_set1_epi32(0x7fffffff);
+
+        __m128 va     = _mm_load_ps(v.data());
+        __m128 result = _mm_castsi128_ps(_mm_and_si128(_mm_castps_si128(va), mask));
+
+        float4 out;
+        _mm_store_ps(out.data(), result);
+        return out;
 #else
         return float4(std::fabs(v.x), std::fabs(v.y), std::fabs(v.z), std::fabs(v.w));
 #endif
