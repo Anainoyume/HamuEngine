@@ -15,7 +15,7 @@ template <typename Vec>
 std::vector<Vec> generate_vecs(size_t n) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> dis(1.0f, 1000.0f);
+    std::uniform_real_distribution<float> dis(-1000.0f, 1000.0f);
     std::vector<Vec> vecs;
     vecs.reserve(n);
     for (size_t i = 0; i < n; ++i) {
@@ -27,7 +27,7 @@ std::vector<Vec> generate_vecs(size_t n) {
 std::vector<float> generate_scalars(size_t n) {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> dis(1.0f, 1000.0f);
+    std::uniform_real_distribution<float> dis(-1000.0f, 1000.0f);
     std::vector<float> scalars;
     scalars.reserve(n);
     for (size_t i = 0; i < n; ++i) {

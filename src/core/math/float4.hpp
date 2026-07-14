@@ -70,8 +70,8 @@ namespace hamu
         auto vb = f4reg::load_aligned(b.data());
 
         auto sum = va * vb;
-        sum += f4reg::merge_high(sum, sum);
-        sum += f4reg::shuffle<1, 0, 0, 0>(sum, sum);
+        sum      = sum + f4reg::merge_high(sum, sum);
+        sum      = sum + f4reg::shuffle<1, 0, 0, 0>(sum, sum);
 
         return f4reg::get_float0(sum);
 #else
@@ -89,13 +89,15 @@ namespace hamu
 
     inline constexpr float4 normalize(const float4& v) {
 #if defined(__SSE2__)
-        auto d  = dot(v, v);
-        auto va = f4reg::load_aligned(v.data());
-        auto x  = f4reg::load_constant(d);
+        auto d     = dot(v, v);
+        auto va    = f4reg::load_aligned(v.data());
+        auto x     = f4reg::load_constant(d);
+        auto half  = f4reg::load_constant(0.5f);
+        auto three = f4reg::load_constant(1.5f);
 
         auto inv  = f4reg::rsqrt(x);
         auto inv2 = inv * inv;
-        inv       = inv * f4reg::fast_negmul_add(0.5f * x, inv2, 1.5f);
+        inv       = inv * f4reg::fast_negmul_add(half * x, inv2, three);
         va        = va * inv;
         return cvtfloat4_f4reg(va);
 #else
@@ -113,13 +115,13 @@ namespace hamu
 
     inline constexpr float4 lerp(const float4& a, const float4& b, float t) {
 #if defined(__SSE2__)
-        __m128 vt     = _mm_set1_ps(t);
-        __m128 va     = _mm_load_ps(a.data());
-        __m128 vb     = _mm_load_ps(b.data());
-        __m128 result = _mm_fmadd_ps(_mm_sub_ps(vb, va), vt, va);
+        auto vt     = f4reg::load_constant(t);
+        auto va     = f4reg::load_aligned(a.data());
+        auto vb     = f4reg::load_aligned(b.data());
+        auto result = f4reg::fast_mul_add(vb - va, vt, va);
 
         float4 out;
-        _mm_store_ps(out.data(), result);
+        result.store(out.data());
         return out;
 #else
         return a + (b - a) * t;

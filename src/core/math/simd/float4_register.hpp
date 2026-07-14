@@ -9,8 +9,6 @@ namespace hamu
     class f4reg
     {
     public:
-        f4reg(float w) : _value(_mm_set1_ps(w)) {}
-
         static f4reg load(const float* data);
 
         static f4reg load_aligned(const float* data);
