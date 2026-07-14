@@ -6,7 +6,6 @@
 
 namespace hamu
 {
-
     struct alignas(16) Float4
     {
         float x, y, z, w;
@@ -81,11 +80,19 @@ namespace hamu
 
     inline constexpr Float4 normalize(const Float4& v) {
 #if defined(__SSE2__)
-        auto d = dot(v, v);
+        auto d    = dot(v, v);
         __m128 va = _mm_load_ps(v.data());
-        __m128 vb = _mm_set_ps1(d);
-        vb = _mm_rsqrt_ps(vb);
-        va = _mm_mul_ps(va, vb);
+        __m128 x  = _mm_set_ps1(d);
+
+        const __m128 half  = _mm_set1_ps(0.5f);
+        const __m128 three = _mm_set1_ps(1.5f);
+        __m128 inv         = _mm_rsqrt_ps(x);
+        __m128 inv2        = _mm_mul_ps(inv, inv);           // x²
+        __m128 hx          = _mm_mul_ps(half, x);            // 0.5a
+        inv2               = _mm_fnmadd_ps(hx, inv2, three); // 1.5 - 0.5ax²
+        inv                = _mm_mul_ps(inv, inv2);          // 1.5x -0.5ax³
+
+        va = _mm_mul_ps(va, inv);
 
         Float4 out;
         _mm_store_ps(out.data(), va);
@@ -104,11 +111,32 @@ namespace hamu
     }
 
     inline constexpr Float4 lerp(const Float4& a, const Float4& b, float t) {
+#if defined(__SSE2__)
+        __m128 vt     = _mm_set1_ps(t);
+        __m128 va     = _mm_load_ps(a.data());
+        __m128 vb     = _mm_load_ps(b.data());
+        __m128 result = _mm_fmadd_ps(_mm_sub_ps(vb, va), vt, va);
+
+        Float4 out;
+        _mm_store_ps(out.data(), result);
+        return out;
+#else
         return a + (b - a) * t;
+#endif
     }
 
     inline constexpr Float4 abs(const Float4& v) {
+#if defined(__SSE2__)
+        __m128 va          = _mm_load_ps(v.data());
+        const __m128i mask = _mm_set1_epi32(0x7fffffff);
+        __m128 result      = _mm_castsi128_ps(_mm_and_si128(_mm_castps_si128(va), mask));
+
+        Float4 out;
+        _mm_store_ps(out.data(), result);
+        return out;
+#else
         return Float4(std::fabs(v.x), std::fabs(v.y), std::fabs(v.z), std::fabs(v.w));
+#endif
     }
 
 } // namespace hamu

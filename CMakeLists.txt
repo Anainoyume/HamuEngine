@@ -101,6 +101,26 @@ target_compile_definitions(SandBox PRIVATE
 
 
 
+# ---------------------------------- SandBox-Test -----------------------------------
+set(SANDBOX_TEST_SRC
+    "sandbox/test.cpp"
+)
+
+add_executable(SandBoxTest ${SANDBOX_TEST_SRC})
+target_include_directories(SandBoxTest PRIVATE 
+    "sandbox"
+    "src/core/math"
+)
+target_link_libraries(SandBoxTest PRIVATE 
+    glm
+)
+target_compile_options(SandBoxTest PRIVATE
+    -O3
+    -march=native
+)
+
+
+
 # ---------------------------------- BenchMark -----------------------------------
 # benchmark 库我们直接远程引入
 # 声明要获取的 Google Benchmark 库

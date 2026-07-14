@@ -36,7 +36,7 @@ std::vector<float> generate_scalars(size_t n) {
 
 // ---------- 针对 hamu::Float4 的基准测试 ----------
 static void BM_Hamu_Add(benchmark::State& state) {
-    const size_t N       = 1024 << 2 << 2;
+    const size_t N       = 1024 << 2;
     static const auto va = generate_vecs<hamu::Float4>(N);
     static const auto vb = generate_vecs<hamu::Float4>(N);
     size_t idx           = 0;
@@ -49,7 +49,7 @@ static void BM_Hamu_Add(benchmark::State& state) {
 BENCHMARK(BM_Hamu_Add);
 
 static void BM_Hamu_Sub(benchmark::State& state) {
-    const size_t N       = 1024 << 2 << 2;
+    const size_t N       = 1024 << 2;
     static const auto va = generate_vecs<hamu::Float4>(N);
     static const auto vb = generate_vecs<hamu::Float4>(N);
     size_t idx           = 0;
@@ -62,7 +62,7 @@ static void BM_Hamu_Sub(benchmark::State& state) {
 BENCHMARK(BM_Hamu_Sub);
 
 static void BM_Hamu_MulVecVec(benchmark::State& state) {
-    const size_t N       = 1024 << 2 << 2;
+    const size_t N       = 1024 << 2;
     static const auto va = generate_vecs<hamu::Float4>(N);
     static const auto vb = generate_vecs<hamu::Float4>(N);
     size_t idx           = 0;
@@ -75,7 +75,7 @@ static void BM_Hamu_MulVecVec(benchmark::State& state) {
 BENCHMARK(BM_Hamu_MulVecVec);
 
 static void BM_Hamu_DivVecVec(benchmark::State& state) {
-    const size_t N       = 1024 << 2 << 2;
+    const size_t N       = 1024 << 2;
     static const auto va = generate_vecs<hamu::Float4>(N);
     static const auto vb = generate_vecs<hamu::Float4>(N);
     size_t idx           = 0;
@@ -88,7 +88,7 @@ static void BM_Hamu_DivVecVec(benchmark::State& state) {
 BENCHMARK(BM_Hamu_DivVecVec);
 
 static void BM_Hamu_MulScalar(benchmark::State& state) {
-    const size_t N            = 1024 << 2 << 2;
+    const size_t N            = 1024 << 2;
     static const auto va      = generate_vecs<hamu::Float4>(N);
     static const auto scalars = generate_scalars(N);
     size_t idx                = 0;
@@ -101,7 +101,7 @@ static void BM_Hamu_MulScalar(benchmark::State& state) {
 BENCHMARK(BM_Hamu_MulScalar);
 
 static void BM_Hamu_DivScalar(benchmark::State& state) {
-    const size_t N            = 1024 << 2 << 2;
+    const size_t N            = 1024 << 2;
     static const auto va      = generate_vecs<hamu::Float4>(N);
     static const auto scalars = generate_scalars(N);
     size_t idx                = 0;
@@ -115,7 +115,7 @@ BENCHMARK(BM_Hamu_DivScalar);
 
 // ---------- 针对 glm::vec4 的基准测试 ----------
 static void BM_GLM_Add(benchmark::State& state) {
-    const size_t N       = 1024 << 2 << 2;
+    const size_t N       = 1024 << 2;
     static const auto va = generate_vecs<glm::vec4>(N);
     static const auto vb = generate_vecs<glm::vec4>(N);
     size_t idx           = 0;
@@ -128,7 +128,7 @@ static void BM_GLM_Add(benchmark::State& state) {
 BENCHMARK(BM_GLM_Add);
 
 static void BM_GLM_Sub(benchmark::State& state) {
-    const size_t N       = 1024 << 2 << 2;
+    const size_t N       = 1024 << 2;
     static const auto va = generate_vecs<glm::vec4>(N);
     static const auto vb = generate_vecs<glm::vec4>(N);
     size_t idx           = 0;
@@ -141,7 +141,7 @@ static void BM_GLM_Sub(benchmark::State& state) {
 BENCHMARK(BM_GLM_Sub);
 
 static void BM_GLM_MulVecVec(benchmark::State& state) {
-    const size_t N       = 1024 << 2 << 2;
+    const size_t N       = 1024 << 2;
     static const auto va = generate_vecs<glm::vec4>(N);
     static const auto vb = generate_vecs<glm::vec4>(N);
     size_t idx           = 0;
@@ -154,7 +154,7 @@ static void BM_GLM_MulVecVec(benchmark::State& state) {
 BENCHMARK(BM_GLM_MulVecVec);
 
 static void BM_GLM_DivVecVec(benchmark::State& state) {
-    const size_t N       = 1024 << 2 << 2;
+    const size_t N       = 1024 << 2;
     static const auto va = generate_vecs<glm::vec4>(N);
     static const auto vb = generate_vecs<glm::vec4>(N);
     size_t idx           = 0;
@@ -167,7 +167,7 @@ static void BM_GLM_DivVecVec(benchmark::State& state) {
 BENCHMARK(BM_GLM_DivVecVec);
 
 static void BM_GLM_MulScalar(benchmark::State& state) {
-    const size_t N            = 1024 << 2 << 2;
+    const size_t N            = 1024 << 2;
     static const auto va      = generate_vecs<glm::vec4>(N);
     static const auto scalars = generate_scalars(N);
     size_t idx                = 0;
@@ -180,7 +180,7 @@ static void BM_GLM_MulScalar(benchmark::State& state) {
 BENCHMARK(BM_GLM_MulScalar);
 
 static void BM_GLM_DivScalar(benchmark::State& state) {
-    const size_t N            = 1024 << 2 << 2;
+    const size_t N            = 1024 << 2;
     static const auto va      = generate_vecs<glm::vec4>(N);
     static const auto scalars = generate_scalars(N);
     size_t idx                = 0;
@@ -295,5 +295,29 @@ static void BM_GLM_Lerp(benchmark::State& state) {
     }
 }
 BENCHMARK(BM_GLM_Lerp);
+
+static void BM_Hamu_Abs(benchmark::State& state) {
+    const size_t N = 1024 << 2;
+    static const auto va = generate_vecs<hamu::Float4>(N);
+    for (auto _ : state) {
+        size_t idx = 0;
+        auto result = hamu::abs(va[idx]);
+        benchmark::DoNotOptimize(result);
+        idx = (idx + 1) & (N - 1);
+    }
+}
+BENCHMARK(BM_Hamu_Abs);
+
+static void BM_GLM_Abs(benchmark::State& state) {
+    const size_t N = 1024 << 2;
+    static const auto va = generate_vecs<glm::vec4>(N);
+    size_t idx = 0;
+    for (auto _ : state) {
+        auto result = glm::abs(va[idx]);
+        benchmark::DoNotOptimize(result);
+        idx = (idx + 1) & (N - 1);
+    }
+}
+BENCHMARK(BM_GLM_Abs);
 
 BENCHMARK_MAIN();
