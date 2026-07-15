@@ -80,7 +80,15 @@ namespace hamu
     }
 
     inline constexpr float length(const float4& v) {
+#if defined(__SSE2__)
+        auto d = dot(v, v);
+        auto x = f4reg::load_constant(d);
+        x      = f4reg::sqrt(x);
+
+        return f4reg::get_float0(x);
+#else
         return std::sqrt(dot(v, v));
+#endif
     }
 
     inline constexpr float distance(const float4& a, const float4& b) {
@@ -139,7 +147,7 @@ namespace hamu
         _mm_store_ps(out.data(), result);
         return out;
 #else
-        return float4(std::fabs(v.x), std::fabs(v.y), std::fabs(v.z), std::fabs(v.w));
+        return float4(std::abs(v.x), std::abs(v.y), std::abs(v.z), std::abs(v.w));
 #endif
     }
 

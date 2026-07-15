@@ -22,6 +22,8 @@ namespace hamu
         template <int X, int Y, int Z, int W>
         static f4reg shuffle(const f4reg& a, const f4reg& b);
 
+        static f4reg sqrt(const f4reg& a);
+
         static f4reg rsqrt(const f4reg& a);
 
         static f4reg fast_mul_add(const f4reg& a, const f4reg& b, const f4reg& c);
@@ -177,6 +179,10 @@ namespace hamu
         constexpr int mask = X | (Y << 2) | (Z << 4) | (W << 6);
 
         return f4reg(_mm_shuffle_ps(a._value, b._value, mask));
+    }
+
+    inline f4reg f4reg::sqrt(const f4reg& a) {
+        return f4reg(_mm_sqrt_ps(a._value));
     }
 
     inline f4reg f4reg::rsqrt(const f4reg& a) {
