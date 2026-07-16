@@ -100,12 +100,12 @@ namespace hamu
         auto d     = dot(v, v);
         auto va    = f4reg::load_aligned(v.data());
         auto x     = f4reg::load_constant(d);
-        auto half  = f4reg::load_constant(0.5f);
-        auto three = f4reg::load_constant(1.5f);
+        static const auto half  = f4reg::load_constant(0.5f);
+        static const auto three = f4reg::load_constant(1.5f);
 
         auto inv  = f4reg::rsqrt(x);
         auto inv2 = inv * inv;
-        inv       = inv * f4reg::fast_negmul_add(half * x, inv2, three);
+        inv       = inv * f4reg::fast_negmul_add(x * half, inv2, three);
         va        = va * inv;
         return cvtfloat4_f4reg(va);
 #else
