@@ -94,7 +94,6 @@ TEST(Math, Lerp) {
 #define NEG(v) Neg(v, x); Neg(v, y); Neg(v, z); Neg(v, w)
 TEST(Math, Abs) {
     auto [a, b, x, y] = get_random_data();
-    
     NEG(a);
     NEG(b);
     NEG(x);
