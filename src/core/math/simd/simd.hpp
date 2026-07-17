@@ -19,3 +19,5 @@ namespace hamu::simd
 
 #include "simd_float4.inl"
 #include "simd_float8.inl"
+
+#include "packed_view.hpp"
