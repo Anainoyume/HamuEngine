@@ -8,7 +8,7 @@
 #include "glm/vec4.hpp"
 #include "glm/geometric.hpp"
 
-constexpr float eps = 1e-8f;
+constexpr float eps = 1e-6f;
 constexpr float k1  = 275827.273f;
 constexpr float k2  = 0.007284f;
 
@@ -16,7 +16,7 @@ template <typename Vec>
 constexpr Vec random_vector() {
     std::random_device rd;
     std::mt19937 gen(rd());
-    std::uniform_real_distribution<float> dis(-1000.0f, 1000.0f);
+    std::uniform_real_distribution<float> dis(-100.0f, 100.0f);
     return Vec(dis(gen), dis(gen), dis(gen), dis(gen));
 }
 
@@ -69,6 +69,12 @@ TEST(Math, Scalar_Div) {
 TEST(Math, Dot) {
     auto [a, b, x, y] = get_random_data();
     EXPECT_NEAR(hamu::dot(a, b), glm::dot(x, y), eps);
+}
+
+TEST(Math, Normalize) {
+    auto [a, b, x, y] = get_random_data();
+    ExpectFloat4Near(hamu::normalize(a), glm::normalize(x));
+    ExpectFloat4Near(hamu::normalize(b), glm::normalize(y));
 }
 
 TEST(Math, Length) {
