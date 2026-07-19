@@ -102,6 +102,16 @@ namespace hamu::simd
         return simd<4, float>(_mm_div_ps(a._value, vs));
     }
 
+    [[nodiscard]]
+    inline simd<4, float> bit_and(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_and_ps(a._value, b._value));
+    }
+    
+    [[nodiscard]]
+    inline simd<4, float> bit_andnot(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_andnot_ps(a._value, b._value));
+    }
+
     template <size_t Index>
     [[nodiscard]]
     float lane(simd<4, float> v) noexcept;

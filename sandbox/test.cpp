@@ -3,6 +3,16 @@
 #include <tuple>
 #include <vector>
 
+// clang-format off
+int mask[5][5] = {
+    {0, 1, 1, 1, 1}, 
+    {0, 1, 0, 0, 1}, 
+    {0, 1, 0, 0, 1}, 
+    {0, 1, 1, 1, 1}, 
+    {0, 0, 0, 0, 0}
+};
+// clang-format on
+
 int main() {
     constexpr int MAX_ITER = 1e7;
     constexpr int N        = 25;
@@ -10,6 +20,16 @@ int main() {
     std::mt19937 gen(rd());
     std::uniform_int_distribution<int> dis(0, 4);
 
+    std::cout << "关卡遮罩:\n";
+    for (int i = 0; i < 5; i++) {
+        std::string s;
+        std::cin >> s;
+        for (int j = 0; j < 5; j++) {
+            mask[i][j] = s[j] - '0';
+        }
+    }
+
+    std::cout << "气球总数量:\n";
     int n {};
     std::cin >> n;
 
@@ -23,12 +43,15 @@ int main() {
             std::cout << '\n';
         }
     };
-
+        
+    std::cout << "各个气球浮力:\n";
+    int cnt {};
     for (int i = 0; i < N; i++) {
         *(&board[0][0] + i) = 0;
 
-        if (i < n) {
+        if (*(&mask[0][0] + i) && cnt < n) {
             std::cin >> *(&board[0][0] + i);
+            cnt += 1;
         }
     }
 
@@ -58,10 +81,14 @@ int main() {
         auto bx = dis(gen);
         auto by = dis(gen);
 
-        std::swap(board[ax][ay], board[bx][by]);
+        if (mask[ax][ay] && mask[bx][by]) {
+            std::swap(board[ax][ay], board[bx][by]);
+        }
         it++;
     }
 
     std::cout << "最佳力矩为：" << wx << ' ' << wy << '\n';
     print();
+
+    system("pause");
 }

@@ -137,14 +137,14 @@ namespace hamu
 
     inline constexpr float4 abs(const float4& v) {
 #if defined(__SSE2__)
-        static const __m128i mask = _mm_set1_epi32(0x7fffffff);
+        using simd4f           = simd::simd<4, float>;
+        static const auto mask = simd4f::boardcast(-0.0f);
+        auto va                = simd4f::load<true>(v.data());
+        auto x                 = simd::bit_andnot(mask, va);
 
-        __m128 va     = _mm_load_ps(v.data());
-        __m128 result = _mm_castsi128_ps(_mm_and_si128(_mm_castps_si128(va), mask));
-
-        float4 out;
-        _mm_store_ps(out.data(), result);
-        return out;
+        float4 result;
+        x.store<true>(result.data());
+        return result;
 #else
         return float4(std::abs(v.x), std::abs(v.y), std::abs(v.z), std::abs(v.w));
 #endif
