@@ -11,8 +11,6 @@
 #include "glm/vec4.hpp"
 #include "glm/geometric.hpp"
 
-constexpr float eps = 1e-6f;
-
 #define MAX_ULP 64
 
 namespace detail

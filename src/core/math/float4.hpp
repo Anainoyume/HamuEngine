@@ -4,7 +4,7 @@
 #include <immintrin.h>
 
 #include "simd/simd.hpp"
-#include "simd/simd_float4.inl"
+#include "simd/simd_ext.hpp"
 
 namespace hamu
 {
@@ -61,12 +61,7 @@ namespace hamu
         using simd4f = simd::simd<4, float>;
         auto va      = simd4f::load<true>(a.data());
         auto vb      = simd4f::load<true>(b.data());
-
-        auto sum = va * vb;
-        sum      = sum + simd::merge_high(sum, sum);
-        sum      = sum + simd::shuffle<1, 0, 0, 0>(sum, sum);
-
-        return simd::lane<0>(sum);
+        return simd::Dot(va, vb);
 #else
         return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
 #endif
@@ -75,11 +70,8 @@ namespace hamu
     inline constexpr float length(const float4& v) {
 #if defined(__SSE2__)
         using simd4f = simd::simd<4, float>;
-        auto d       = dot(v, v);
-        auto x       = simd4f::boardcast(d);
-        x            = simd::sqrt(x);
-
-        return simd::lane<0>(x);
+        auto vv      = simd4f::load<true>(v.data());
+        return simd::Length(vv);
 #else
         return std::sqrt(dot(v, v));
 #endif
@@ -91,20 +83,12 @@ namespace hamu
 
     inline constexpr float4 normalize(const float4& v) {
 #if defined(__SSE2__)
-        using simd4f            = simd::simd<4, float>;
-        auto d                  = dot(v, v);
-        auto va                 = simd4f::load<true>(v.data());
-        auto x                  = simd4f::boardcast(d);
-        static const auto half  = simd4f::boardcast(0.5f);
-        static const auto three = simd4f::boardcast(1.5f);
-
-        auto inv  = simd::rsqrt(x);
-        auto inv2 = inv * inv;
-        inv       = inv * simd::sub_mul(three, x * half, inv2);
-        va        = va * inv;
+        using simd4f = simd::simd<4, float>;
+        auto vv      = simd4f::load<true>(v.data());
+        auto x       = simd::Normalize(vv);
 
         float4 result;
-        va.store<true>(result.data());
+        x.store(result.data());
         return result;
 #else
         return v / length(v);
@@ -122,10 +106,9 @@ namespace hamu
     inline constexpr float4 lerp(const float4& a, const float4& b, float t) {
 #if defined(__SSE2__)
         using simd4f = simd::simd<4, float>;
-        auto vt      = simd4f::boardcast(t);
         auto va      = simd4f::load<true>(a.data());
         auto vb      = simd4f::load<true>(b.data());
-        auto x       = simd::mul_add(vb - va, vt, va);
+        auto x       = simd::Lerp(va, vb, t);
 
         float4 result;
         x.store<true>(result.data());
@@ -137,10 +120,9 @@ namespace hamu
 
     inline constexpr float4 abs(const float4& v) {
 #if defined(__SSE2__)
-        using simd4f           = simd::simd<4, float>;
-        static const auto mask = simd4f::boardcast(-0.0f);
-        auto va                = simd4f::load<true>(v.data());
-        auto x                 = simd::bit_andnot(mask, va);
+        using simd4f = simd::simd<4, float>;
+        auto va      = simd4f::load<true>(v.data());
+        auto x       = simd::Abs(va);
 
         float4 result;
         x.store<true>(result.data());

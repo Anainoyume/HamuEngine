@@ -172,6 +172,8 @@ target_compile_options(Bench_Math_Batch PRIVATE
     -march=native
 )
 
+target_compile_definitions(Bench_Math_Batch PRIVATE GLM_BATCH)
+
 
 
 # ----------------------------------- Google Test ------------------------------------
