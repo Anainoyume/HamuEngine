@@ -5,7 +5,7 @@
 #include <tuple>
 #include <utility>
 
-#include "float4.hpp"
+#include "Float4.hpp"
 
 #include "float_test_utils.hpp"
 #include "glm/vec4.hpp"
@@ -130,43 +130,43 @@ void ExpectFloat4Near(const Vec& a, const Vec& b) {
 }
 
 TEST(Math, Add) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
 
-    ExpectFloat4Near(a + b, (x + y).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(a + b, (x + y).ToLPFloat4<hamu::Float4>());
 }
 
 TEST(Math, Sub) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
 
-    ExpectFloat4Near(a - b, (x - y).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(a - b, (x - y).ToLPFloat4<hamu::Float4>());
 }
 
 TEST(Math, Mul) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
 
-    ExpectFloat4Near(a * b, (x * y).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(a * b, (x * y).ToLPFloat4<hamu::Float4>());
 }
 
 TEST(Math, Div) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
 
-    ExpectFloat4Near(a / b, (x / y).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(a / b, (x / y).ToLPFloat4<hamu::Float4>());
 }
 
 TEST(Math, Mul_Scalar) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
@@ -177,12 +177,12 @@ TEST(Math, Mul_Scalar) {
     auto s1 = static_cast<long double>(k1);
     auto s2 = static_cast<long double>(k2);
 
-    ExpectFloat4Near(a * k1, (x * s1).ToLPFloat4<hamu::float4>());
-    ExpectFloat4Near(b * k2, (y * s2).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(a * k1, (x * s1).ToLPFloat4<hamu::Float4>());
+    ExpectFloat4Near(b * k2, (y * s2).ToLPFloat4<hamu::Float4>());
 }
 
 TEST(Math, Div_Scalar) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
@@ -193,12 +193,12 @@ TEST(Math, Div_Scalar) {
     auto s1 = static_cast<long double>(k1);
     auto s2 = static_cast<long double>(k2);
 
-    ExpectFloat4Near(a / k1, (x / s1).ToLPFloat4<hamu::float4>());
-    ExpectFloat4Near(b / k2, (y / s2).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(a / k1, (x / s1).ToLPFloat4<hamu::Float4>());
+    ExpectFloat4Near(b / k2, (y / s2).ToLPFloat4<hamu::Float4>());
 }
 
 TEST(Math, Dot) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
@@ -207,17 +207,17 @@ TEST(Math, Dot) {
 }
 
 TEST(Math, Normalize) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
 
-    ExpectFloat4Near(hamu::normalize(a), detail::normalize(x).ToLPFloat4<hamu::float4>());
-    ExpectFloat4Near(hamu::normalize(b), detail::normalize(y).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(hamu::normalize(a), detail::normalize(x).ToLPFloat4<hamu::Float4>());
+    ExpectFloat4Near(hamu::normalize(b), detail::normalize(y).ToLPFloat4<hamu::Float4>());
 }
 
 TEST(Math, Length) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
@@ -227,7 +227,7 @@ TEST(Math, Length) {
 }
 
 TEST(Math, Distance) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
@@ -236,7 +236,7 @@ TEST(Math, Distance) {
 }
 
 TEST(Math, Lerp) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
@@ -251,20 +251,20 @@ TEST(Math, Lerp) {
     auto s3 = static_cast<long double>(k3);
     auto s4 = static_cast<long double>(k4);
 
-    ExpectFloat4Near(hamu::lerp(a, b, k1), detail::lerp(x, y, s1).ToLPFloat4<hamu::float4>());
-    ExpectFloat4Near(hamu::lerp(a, b, k2), detail::lerp(x, y, s2).ToLPFloat4<hamu::float4>());
-    ExpectFloat4Near(hamu::lerp(a, b, k3), detail::lerp(x, y, s3).ToLPFloat4<hamu::float4>());
-    ExpectFloat4Near(hamu::lerp(a, b, k4), detail::lerp(x, y, s4).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(hamu::lerp(a, b, k1), detail::lerp(x, y, s1).ToLPFloat4<hamu::Float4>());
+    ExpectFloat4Near(hamu::lerp(a, b, k2), detail::lerp(x, y, s2).ToLPFloat4<hamu::Float4>());
+    ExpectFloat4Near(hamu::lerp(a, b, k3), detail::lerp(x, y, s3).ToLPFloat4<hamu::Float4>());
+    ExpectFloat4Near(hamu::lerp(a, b, k4), detail::lerp(x, y, s4).ToLPFloat4<hamu::Float4>());
 }
 
 TEST(Math, Abs) {
-    auto [a, b] = GetRandomVectorPair<hamu::float4>();
+    auto [a, b] = GetRandomVectorPair<hamu::Float4>();
 
     auto x = detail::HPFloat4(a);
     auto y = detail::HPFloat4(b);
 
-    ExpectFloat4Near(hamu::abs(a), detail::abs(x).ToLPFloat4<hamu::float4>());
-    ExpectFloat4Near(hamu::abs(b), detail::abs(y).ToLPFloat4<hamu::float4>());
+    ExpectFloat4Near(hamu::abs(a), detail::abs(x).ToLPFloat4<hamu::Float4>());
+    ExpectFloat4Near(hamu::abs(b), detail::abs(y).ToLPFloat4<hamu::Float4>());
 }
 
 int main(int argc, char** argv) {
