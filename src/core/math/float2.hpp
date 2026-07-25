@@ -5,84 +5,84 @@
 namespace hamu
 {
 
-    struct Float2
+    struct float2
     {
         float x, y;
 
-        constexpr Float2(float x, float y) : x(x), y(y) {}
-        constexpr explicit Float2(float k) : Float2(k, k) {}
-        constexpr Float2() : Float2(0) {}
+        constexpr float2(float x, float y) : x(x), y(y) {}
+        constexpr explicit float2(float k) : float2(k, k) {}
+        constexpr float2() : float2(0) {}
 
         constexpr float* data() { return &x; }
         constexpr const float* data() const { return &x; }
     };
 
-    inline constexpr Float2 operator+(const Float2& a, const Float2& b) {
-        return Float2(a.x + b.x, a.y + b.y);
+    inline constexpr float2 operator+(const float2& a, const float2& b) {
+        return float2(a.x + b.x, a.y + b.y);
     }
 
-    inline constexpr Float2 operator-(const Float2& a, const Float2& b) {
-        return Float2(a.x - b.x, a.y - b.y);
+    inline constexpr float2 operator-(const float2& a, const float2& b) {
+        return float2(a.x - b.x, a.y - b.y);
     }
 
-    inline constexpr Float2 operator*(const Float2& a, const Float2& b) {
-        return Float2(a.x * b.x, a.y * b.y);
+    inline constexpr float2 operator*(const float2& a, const float2& b) {
+        return float2(a.x * b.x, a.y * b.y);
     }
 
-    inline constexpr Float2 operator/(const Float2& a, const Float2& b) {
-        return Float2(a.x / b.x, a.y / b.y);
+    inline constexpr float2 operator/(const float2& a, const float2& b) {
+        return float2(a.x / b.x, a.y / b.y);
     }
 
-    inline constexpr Float2 operator*(const Float2& v, float s) {
-        return Float2(v.x * s, v.y * s);
+    inline constexpr float2 operator*(const float2& v, float s) {
+        return float2(v.x * s, v.y * s);
     }
 
-    inline constexpr Float2 operator*(float s, const Float2& v) {
-        return Float2(v.x * s, v.y * s);
+    inline constexpr float2 operator*(float s, const float2& v) {
+        return float2(v.x * s, v.y * s);
     }
 
-    inline constexpr Float2 operator/(float s, const Float2& v) {
-        return Float2(s / v.x, s / v.y);
+    inline constexpr float2 operator/(float s, const float2& v) {
+        return float2(s / v.x, s / v.y);
     }
 
-    inline constexpr Float2 operator/(const Float2& v, float s) {
-        return Float2(v.x / s, v.y / s);
+    inline constexpr float2 operator/(const float2& v, float s) {
+        return float2(v.x / s, v.y / s);
     }
 
-    inline constexpr Float2 operator-(const Float2& v) {
-        return Float2(-v.x, -v.y);
+    inline constexpr float2 operator-(const float2& v) {
+        return float2(-v.x, -v.y);
     }
 
-    inline constexpr float dot(const Float2& a, const Float2& b) {
+    inline constexpr float dot(const float2& a, const float2& b) {
         return a.x * b.x + a.y * b.y;
     }
 
-    inline constexpr float length(const Float2& v) {
+    inline constexpr float length(const float2& v) {
         return std::sqrt(dot(v, v));
     }
 
-    inline constexpr float distance(const Float2& a, const Float2& b) {
+    inline constexpr float distance(const float2& a, const float2& b) {
         return length(b - a);
     }
 
-    inline constexpr Float2 normalize(const Float2& v) {
+    inline constexpr float2 normalize(const float2& v) {
         return v / length(v);
     }
 
-    inline constexpr Float2 normalize_safe(const Float2& v) {
+    inline constexpr float2 normalize_safe(const float2& v) {
         float len = length(v);
         if (len <= 1e-6) {
-            return Float2(0.0f);
+            return float2(0.0f);
         }
         return v / len;
     }
 
-    inline constexpr Float2 lerp(const Float2& a, const Float2& b, float t) {
+    inline constexpr float2 lerp(const float2& a, const float2& b, float t) {
         return a + (b - a) * t;
     }
 
-    inline constexpr Float2 abs(const Float2& v) {
-        return Float2(std::fabs(v.x), std::fabs(v.y));
+    inline constexpr float2 abs(const float2& v) {
+        return float2(std::fabs(v.x), std::fabs(v.y));
     }
 
 } // namespace hamu

@@ -1,45 +1,45 @@
 #pragma once
 
-#include "../Simd.hpp"
+#include "../simd.hpp"
 
 namespace hamu::simd
 {
 
     template <>
-    struct Simd<4, float>
+    struct simd<4, float>
     {
         __m128 _value;
 
-        explicit Simd(__m128 m128) noexcept;
+        explicit simd(__m128 m128) noexcept;
 
         template <bool Aligned = false>
         [[nodiscard]]
-        static Simd<4, float> load(const float* data) noexcept;
+        static simd<4, float> load(float* data) noexcept;
 
         [[nodiscard]]
-        static Simd<4, float> boardcast(float value) noexcept;
+        static simd<4, float> boardcast(float value) noexcept;
 
         template <bool Aligned = false>
         void store(float* data) noexcept;
     };
 
-    inline Simd<4, float>::Simd(__m128 m128) noexcept {
+    inline simd<4, float>::simd(__m128 m128) noexcept {
         this->_value = m128;
     }
 
     template <bool Aligned>
     [[nodiscard]]
-    inline Simd<4, float> Simd<4, float>::load(const float* data) noexcept {
+    inline simd<4, float> simd<4, float>::load(float* data) noexcept {
         if constexpr (Aligned) {
-            return Simd<4, float>(_mm_load_ps(data));
+            return simd<4, float>(_mm_load_ps(data));
         }
         else {
-            return Simd<4, float>(_mm_loadu_ps(data));
+            return simd<4, float>(_mm_loadu_ps(data));
         }
     }
 
     template <bool Aligned>
-    inline void Simd<4, float>::store(float* data) noexcept {
+    inline void simd<4, float>::store(float* data) noexcept {
         if constexpr (Aligned) {
             _mm_store_ps(data, this->_value);
         }
@@ -49,67 +49,67 @@ namespace hamu::simd
     }
 
     [[nodiscard]]
-    inline Simd<4, float> Simd<4, float>::boardcast(float value) noexcept {
-        return Simd<4, float>(_mm_set1_ps(value));
+    inline simd<4, float> simd<4, float>::boardcast(float value) noexcept {
+        return simd<4, float>(_mm_set1_ps(value));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> operator+(Simd<4, float> a, Simd<4, float> b) noexcept {
-        return Simd<4, float>(_mm_add_ps(a._value, b._value));
+    inline simd<4, float> operator+(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_add_ps(a._value, b._value));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> operator-(Simd<4, float> a, Simd<4, float> b) noexcept {
-        return Simd<4, float>(_mm_sub_ps(a._value, b._value));
+    inline simd<4, float> operator-(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_sub_ps(a._value, b._value));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> operator*(Simd<4, float> a, Simd<4, float> b) noexcept {
-        return Simd<4, float>(_mm_mul_ps(a._value, b._value));
+    inline simd<4, float> operator*(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_mul_ps(a._value, b._value));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> operator/(Simd<4, float> a, Simd<4, float> b) noexcept {
-        return Simd<4, float>(_mm_div_ps(a._value, b._value));
+    inline simd<4, float> operator/(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_div_ps(a._value, b._value));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> operator*(Simd<4, float> a, float s) noexcept {
+    inline simd<4, float> operator*(simd<4, float> a, float s) noexcept {
         const auto vs = _mm_set1_ps(s);
-        return Simd<4, float>(_mm_mul_ps(a._value, vs));
+        return simd<4, float>(_mm_mul_ps(a._value, vs));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> operator/(Simd<4, float> a, float s) noexcept {
+    inline simd<4, float> operator/(simd<4, float> a, float s) noexcept {
         const auto vs = _mm_set1_ps(s);
-        return Simd<4, float>(_mm_div_ps(a._value, vs));
+        return simd<4, float>(_mm_div_ps(a._value, vs));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> operator*(float s, Simd<4, float> a) noexcept {
+    inline simd<4, float> operator*(float s, simd<4, float> a) noexcept {
         const auto vs = _mm_set1_ps(s);
-        return Simd<4, float>(_mm_mul_ps(a._value, vs));
+        return simd<4, float>(_mm_mul_ps(a._value, vs));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> operator/(float s, Simd<4, float> a) noexcept {
+    inline simd<4, float> operator/(float s, simd<4, float> a) noexcept {
         const auto vs = _mm_set1_ps(s);
-        return Simd<4, float>(_mm_div_ps(a._value, vs));
+        return simd<4, float>(_mm_div_ps(a._value, vs));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> bit_and(Simd<4, float> a, Simd<4, float> b) noexcept {
-        return Simd<4, float>(_mm_and_ps(a._value, b._value));
+    inline simd<4, float> bit_and(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_and_ps(a._value, b._value));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> bit_andnot(Simd<4, float> a, Simd<4, float> b) noexcept {
-        return Simd<4, float>(_mm_andnot_ps(a._value, b._value));
+    inline simd<4, float> bit_andnot(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_andnot_ps(a._value, b._value));
     }
 
     template <size_t Index>
     [[nodiscard]]
-    inline float lane(Simd<4, float> v) noexcept {
+    inline float lane(simd<4, float> v) noexcept {
         if constexpr (Index == 0) {
             return _mm_cvtss_f32(v._value);
         }
@@ -121,37 +121,41 @@ namespace hamu::simd
 
     // Returns [b.high | a.high]  (lane3 ---> lane0)
     [[nodiscard]]
-    inline Simd<4, float> merge_high(Simd<4, float> a, Simd<4, float> b) noexcept {
-        return Simd<4, float>(_mm_movehl_ps(a._value, b._value));
+    inline simd<4, float> merge_high(simd<4, float> a, simd<4, float> b) noexcept {
+        return simd<4, float>(_mm_movehl_ps(a._value, b._value));
     }
 
     template <int X, int Y, int Z, int W>
-        requires SimdLane<X> && SimdLane<Y> && SimdLane<Z> && SimdLane<W>
     [[nodiscard]]
-    inline Simd<4, float> shuffle(Simd<4, float> a, Simd<4, float> b) noexcept {
-        return Simd<4, float>(_mm_shuffle_ps(a._value, b._value, _MM_SHUFFLE(W, Z, Y, X)));
+    inline simd<4, float> shuffle(simd<4, float> a, simd<4, float> b) noexcept {
+        static_assert(
+            (0 <= X && X < 4) && (0 <= Y && Y < 4) && (0 <= Z && Z < 4) && (0 <= W && W < 4),
+            "The index must be between 0 and 3 (inclusive)."
+        );
+
+        return simd<4, float>(_mm_shuffle_ps(a._value, b._value, _MM_SHUFFLE(W, Z, Y, X)));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> sqrt(Simd<4, float> v) noexcept {
-        return Simd<4, float>(_mm_sqrt_ps(v._value));
+    inline simd<4, float> sqrt(simd<4, float> v) noexcept {
+        return simd<4, float>(_mm_sqrt_ps(v._value));
     }
 
     [[nodiscard]]
-    inline Simd<4, float> rsqrt(Simd<4, float> v) noexcept {
-        return Simd<4, float>(_mm_rsqrt_ps(v._value));
+    inline simd<4, float> rsqrt(simd<4, float> v) noexcept {
+        return simd<4, float>(_mm_rsqrt_ps(v._value));
     }
 
     // Returns a * b + c
     [[nodiscard]]
-    inline Simd<4, float> mul_add(Simd<4, float> a, Simd<4, float> b, Simd<4, float> c) noexcept {
-        return Simd<4, float>(_mm_fmadd_ps(a._value, b._value, c._value));
+    inline simd<4, float> mul_add(simd<4, float> a, simd<4, float> b, simd<4, float> c) noexcept {
+        return simd<4, float>(_mm_fmadd_ps(a._value, b._value, c._value));
     }
 
     // Returns a - b * c
     [[nodiscard]]
-    inline Simd<4, float> sub_mul(Simd<4, float> a, Simd<4, float> b, Simd<4, float> c) noexcept {
-        return Simd<4, float>(_mm_fnmadd_ps(b._value, c._value, a._value));
+    inline simd<4, float> sub_mul(simd<4, float> a, simd<4, float> b, simd<4, float> c) noexcept {
+        return simd<4, float>(_mm_fnmadd_ps(b._value, c._value, a._value));
     }
 
-} // namespace hamu::Simd
+} // namespace hamu::simd
