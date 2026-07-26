@@ -16,12 +16,20 @@ namespace hamu::simd
         [[nodiscard]]
         static simd<8, float> load(float* data) noexcept;
 
+        template <bool Aligned = false>
+        [[nodiscard]]
+        static simd<8, float> load(const float* data) noexcept;
+
         [[nodiscard]]
         static simd<8, float> boardcast(float value) noexcept;
 
         template <bool Aligned = false>
         void store(float* data) noexcept;
     };
+
+    inline const auto SIMD8F_CONST_NEG_ZERO   = simd<8, float>(_mm256_set1_ps(-0.0f));
+    inline const auto SIMD8F_CONST_THREE_HALF = simd<8, float>(_mm256_set1_ps(1.5f));
+    inline const auto SIMD8F_CONST_HALF       = simd<8, float>(_mm256_set1_ps(0.5f));
 
     inline simd<8, float>::simd(__m256 m256) noexcept {
         this->_value = m256;
@@ -30,6 +38,17 @@ namespace hamu::simd
     template <bool Aligned>
     [[nodiscard]]
     inline simd<8, float> simd<8, float>::load(float* data) noexcept {
+        if constexpr (Aligned) {
+            return simd<8, float>(_mm256_load_ps(data));
+        }
+        else {
+            return simd<8, float>(_mm256_loadu_ps(data));
+        }
+    }
+
+    template <bool Aligned>
+    [[nodiscard]]
+    inline simd<8, float> simd<8, float>::load(const float* data) noexcept {
         if constexpr (Aligned) {
             return simd<8, float>(_mm256_load_ps(data));
         }
@@ -105,6 +124,16 @@ namespace hamu::simd
     [[nodiscard]]
     inline simd<8, float> bit_andnot(simd<8, float> a, simd<8, float> b) noexcept {
         return simd<8, float>(_mm256_andnot_ps(a._value, b._value));
+    }
+
+    [[nodiscard]]
+    inline simd<8, float> bit_or(simd<8, float> a, simd<8, float> b) noexcept {
+        return simd<8, float>(_mm256_or_ps(a._value, b._value));
+    }
+
+    [[nodiscard]]
+    inline simd<8, float> bit_xor(simd<8, float> a, simd<8, float> b) noexcept {
+        return simd<8, float>(_mm256_xor_ps(a._value, b._value));
     }
 
     template <size_t Index>

@@ -1,8 +1,8 @@
 #include "benchmark/benchmark.h"
 
-#include "Float4.hpp" // hamu::Float4
-#include "simd/Batch.hpp"
-#include "simd/SimdExt.hpp"
+#include "float4.hpp"
+#include "float4x2.hpp"
+#include "geometry.hpp"
 
 #include "glm/geometric.hpp"
 #include "glm/vec4.hpp"
@@ -43,9 +43,9 @@ std::vector<float> generate_scalars(size_t n) {
 // ==================== Hamu Batch ====================
 #if defined(HAMU_BATCH)
 static void BM_Hamu_Add_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static const auto vb = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; ++i) {
             result[i] = va[i] + vb[i];
@@ -59,9 +59,9 @@ BENCHMARK(BM_Hamu_Add_Batch);
 
 
 static void BM_Hamu_Sub_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static const auto vb = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; ++i) {
             result[i] = va[i] - vb[i];
@@ -75,9 +75,9 @@ BENCHMARK(BM_Hamu_Sub_Batch);
 
 
 static void BM_Hamu_MulVecVec_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static const auto vb = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; ++i) {
             result[i] = va[i] * vb[i];
@@ -91,9 +91,9 @@ BENCHMARK(BM_Hamu_MulVecVec_Batch);
 
 
 static void BM_Hamu_DivVecVec_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static const auto vb = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; ++i) {
             result[i] = va[i] / vb[i];
@@ -107,9 +107,9 @@ BENCHMARK(BM_Hamu_DivVecVec_Batch);
 
 
 static void BM_Hamu_MulScalar_Batch(benchmark::State& state) {
-    static const auto va      = generate_vecs<hamu::Float4>(kBATCH_SIZE);
+    static const auto va      = generate_vecs<hamu::float4>(kBATCH_SIZE);
     static const auto scalars = generate_scalars(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; ++i) {
             result[i] = va[i] * scalars[i];
@@ -123,9 +123,9 @@ BENCHMARK(BM_Hamu_MulScalar_Batch);
 
 
 static void BM_Hamu_DivScalar_Batch(benchmark::State& state) {
-    static const auto va      = generate_vecs<hamu::Float4>(kBATCH_SIZE);
+    static const auto va      = generate_vecs<hamu::float4>(kBATCH_SIZE);
     static const auto scalars = generate_scalars(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; ++i) {
             result[i] = va[i] / scalars[i];
@@ -138,17 +138,17 @@ BENCHMARK(BM_Hamu_DivScalar_Batch);
 
 
 
-using simd8f = hamu::simd::simd<8, float>;
 static void BM_Hamu_Dot_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static const auto vb = generate_vecs<hamu::Float4>(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(kBATCH_SIZE);
     static std::vector<float> result(kBATCH_SIZE);
 
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; i += 2) {
-            auto a        = simd8f::load(&va[i].x);
-            auto b        = simd8f::load(&vb[i].x);
-            auto [d1, d2] = hamu::simd::DotPair(a, b);
+            auto packed_a = hamu::float4x2(&va[i].x);
+            auto packed_b = hamu::float4x2(&vb[i].x);
+
+            auto [d1, d2] = dot(packed_a, packed_b);
 
             result[i]     = d1;
             result[i + 1] = d2;
@@ -162,12 +162,12 @@ BENCHMARK(BM_Hamu_Dot_Batch);
 
 
 static void BM_Hamu_Length_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
     static std::vector<float> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; i += 2) {
-            auto a        = simd8f::load(&va[i].x);
-            auto [d1, d2] = hamu::simd::LengthPair(a);
+            auto packed = hamu::float4x2(&va[i].x);
+            auto [d1, d2] = length(packed);
 
             result[i]     = d1;
             result[i + 1] = d2;
@@ -181,12 +181,12 @@ BENCHMARK(BM_Hamu_Length_Batch);
 
 
 static void BM_Hamu_Normalize_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; i += 2) {
-            auto a = simd8f::load(&va[i].x);
-            auto x = hamu::simd::Normalize(a);
+            auto packed = hamu::float4x2(&va[i].x);
+            auto x = normalize(packed);
             x.store(&result[i].x);
         }
         benchmark::DoNotOptimize(result.data());
@@ -198,15 +198,15 @@ BENCHMARK(BM_Hamu_Normalize_Batch);
 
 
 static void BM_Hamu_Lerp_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static const auto vb = generate_vecs<hamu::Float4>(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static const auto vb = generate_vecs<hamu::float4>(kBATCH_SIZE);
     static const auto ts = generate_scalars(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; i += 2) {
-            auto a = simd8f::load(&va[i].x);
-            auto b = simd8f::load(&vb[i].x);
-            auto x = hamu::simd::Lerp(a, b, ts[i], ts[i + 1]);
+            auto packed_a = hamu::float4x2(&va[i].x);
+            auto packed_b = hamu::float4x2(&vb[i].x);
+            auto x = lerp(packed_a, packed_b, ts[i], ts[i + 1]);
             x.store(&result[i].x);
         }
         benchmark::DoNotOptimize(result.data());
@@ -218,12 +218,12 @@ BENCHMARK(BM_Hamu_Lerp_Batch);
 
 
 static void BM_Hamu_Abs_Batch(benchmark::State& state) {
-    static const auto va = generate_vecs<hamu::Float4>(kBATCH_SIZE);
-    static std::vector<hamu::Float4> result(kBATCH_SIZE);
+    static const auto va = generate_vecs<hamu::float4>(kBATCH_SIZE);
+    static std::vector<hamu::float4> result(kBATCH_SIZE);
     for (auto _ : state) {
         for (size_t i = 0; i < kBATCH_SIZE; i += 2) {
-            auto a = simd8f::load(&va[i].x);
-            auto x = hamu::simd::Abs(a);
+            auto a = hamu::float4x2(&va[i].x);
+            auto x = hamu::abs(a);
             x.store(&result[i].x);
         }
         benchmark::DoNotOptimize(result.data());

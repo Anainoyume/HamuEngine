@@ -19,7 +19,7 @@ UseTab: Never                                       # 不使用 Tab，使用空�
 
 # 设置基本信息
 ColumnLimit: 120                                    # 代码最大宽度（换行限制）
-AllowShortFunctionsOnASingleLine: Inline            # 简短函数可以写成一行 (InlineOnly: 仅限类内部, 但不合并空实现) (Inline: 包括 empty)
+AllowShortFunctionsOnASingleLine: Empty             # 只允许空函数单行，非空类内函数也展开成多行
 IndentCaseLabels: true                              # 会缩进 switch 的 case
 AllowShortCaseLabelsOnASingleLine: true             # 可以压缩 switch 的 case
 DerivePointerAlignment: false                       # 不自动推导指针对齐，下面单独设置
