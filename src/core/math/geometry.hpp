@@ -2,13 +2,20 @@
 
 #include "simd/simd.hpp"
 
+#include "float3.hpp"
 #include "float4.hpp"
 #include "float4x2.hpp"
 
+#include <cmath>
 #include <utility>
 
 namespace hamu
 {
+
+    [[nodiscard]]
+    inline auto dot(const float3& a, const float3& b) noexcept {
+        return a.x * b.x + a.y * b.y + a.z * b.z;
+    }
 
     [[nodiscard]]
     inline auto dot(const float4& a, const float4& b) noexcept {
@@ -30,6 +37,11 @@ namespace hamu
     }
 
     [[nodiscard]]
+    inline auto length(const float3& a) noexcept {
+        return std::sqrt(dot(a, a));
+    }
+
+    [[nodiscard]]
     inline auto length(const float4& a) noexcept {
         using simd4f = simd::simd<4, float>;
         auto d       = dot(a, a);
@@ -47,6 +59,11 @@ namespace hamu
     }
 
     [[nodiscard]]
+    inline auto distance(const float3& a, const float3& b) noexcept {
+        return length(b - a);
+    }
+
+    [[nodiscard]]
     inline auto distance(const float4& a, const float4& b) noexcept {
         return length(b - a);
     }
@@ -54,6 +71,11 @@ namespace hamu
     [[nodiscard]]
     inline auto distance(const float4x2& a, const float4x2& b) noexcept {
         return length(b - a);
+    }
+
+    [[nodiscard]]
+    inline auto normalize(const float3& a) noexcept {
+        return a / length(a);
     }
 
     [[nodiscard]]
@@ -94,6 +116,11 @@ namespace hamu
     }
 
     [[nodiscard]]
+    inline auto lerp(const float3& a, const float3& b, float t) noexcept {
+        return a + (b - a) * t;
+    }
+
+    [[nodiscard]]
     inline auto lerp(const float4& a, const float4& b, float t) noexcept {
         using simd4f = simd::simd<4, float>;
         auto va      = simd4f::load<true>(&a.x);
@@ -122,6 +149,11 @@ namespace hamu
     }
 
     [[nodiscard]]
+    inline auto abs(const float3& a) noexcept {
+        return float3(std::abs(a.x), std::abs(a.y), std::abs(a.z));
+    }
+
+    [[nodiscard]]
     inline auto abs(const float4& a) noexcept {
         using simd4f = simd::simd<4, float>;
         auto va      = simd4f::load<true>(&a.x);
@@ -136,6 +168,11 @@ namespace hamu
     inline auto abs(const float4x2& a) noexcept {
         auto x = bit_andnot(simd::SIMD8F_CONST_NEG_ZERO, a.reg);
         return float4x2(x);
+    }
+
+    [[nodiscard]]
+    inline auto cross(const float3& a, const float3& b) noexcept {
+        return float3(a.y * b.z - a.z * b.y, a.z * b.x - a.x * b.z, a.x * b.y - a.y * b.x);
     }
 
 } // namespace hamu
