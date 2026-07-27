@@ -1,7 +1,6 @@
-CompileFlags:
-  Remove:
-    - -std=c++23        
+CompileFlags:     
   Add:
+    - -std=c++23
     - -Wall
     - -Wextra
     # - -ftemplate-backtrace-limit=1 
@@ -26,21 +25,3 @@ InlayHints:
   Designators: No
   # ParameterNames: No
   # DeducedTypes: No
-
----
-If:
-  PathMatch: ".*\\.cpp"
-CompileFlags:
-  Add: [-std=c++23]
-
----
-If:
-  PathMatch: ".*\\.c"
-CompileFlags:
-  Add: [-std=c17]     
-
-
-
-
-
-
