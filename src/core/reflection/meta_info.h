@@ -7,9 +7,9 @@
 #include <utility>
 namespace hamu
 {
-    
+
     struct meta_info {
-        
+        std::string_view name;
     };
 
 } // namespace hamu

@@ -26,7 +26,7 @@ add_executable(SandBoxTest test.cpp)
 
 target_include_directories(SandBoxTest PRIVATE
     ${CMAKE_CURRENT_SOURCE_DIR}
-    ${PROJECT_SOURCE_DIR}/src/core/math
+    ${PROJECT_SOURCE_DIR}/src/core
 )
 
 target_link_libraries(SandBoxTest PRIVATE
