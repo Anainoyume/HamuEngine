@@ -68,7 +68,6 @@ AlignTrailingComments:
 # 连续赋值的对齐方式
 AlignConsecutiveAssignments: Consecutive
 
-
 # 大括号风格，Allman 是换行大括号，也可以用 Attach（同一行）
 BreakBeforeBraces: Custom                           
 BraceWrapping:
