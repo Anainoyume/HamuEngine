@@ -6,6 +6,7 @@ namespace hamu
 #define META_ID_X(x) x,
 
 #define META_ID_COMPONENTS                                                                                             \
+    META_ID_X(object)                                                                                                  \
     META_ID_X(float2)                                                                                                  \
     META_ID_X(float3)                                                                                                  \
     META_ID_X(float4)                                                                                                  \
